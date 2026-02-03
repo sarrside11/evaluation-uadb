@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Évaluation des Enseignements - UADB 2025-2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Lora:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0A5C36;
+            --secondary: #D4AF37;
+            --accent: #E8704B;
+            --text: #1A1A1A;
+            --bg: #F8F6F2;
+            --card: #FFFFFF;
+            --border: #E0DED8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lora', serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, #084428 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><pattern id="p" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="white" opacity="0.1"/></pattern><rect width="100" height="100" fill="url(%23p)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .university-name {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .header-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            font-weight: 400;
+        }
+
+        .year-badge {
+            display: inline-block;
+            background: var(--secondary);
+            color: var(--primary);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            margin-top: 1rem;
+            font-size: 1rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: -2rem auto 3rem;
+            padding: 0 1.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 10px 30px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border);
+        }
+
+        .section-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 3px solid var(--secondary);
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 1.75rem;
+        }
+
+        label {
+            display: block;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+
+        .required {
+            color: var(--accent);
+        }
+
+        select, input[type="text"] {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Lora', serif;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        select:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(10, 92, 54, 0.1);
+        }
+
+        .radio-group, .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .radio-option, .checkbox-option {
+            display: flex;
+            align-items: center;
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .radio-option:hover, .checkbox-option:hover {
+            border-color: var(--primary);
+            background: rgba(10, 92, 54, 0.02);
+        }
+
+        .radio-option input[type="radio"],
+        .checkbox-option input[type="checkbox"] {
+            margin-right: 0.75rem;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+
+        .radio-option label,
+        .checkbox-option label {
+            margin: 0;
+            cursor: pointer;
+            flex: 1;
+            font-family: 'Lora', serif;
+            font-weight: 400;
+        }
+
+        .btn {
+            font-family: 'Montserrat', sans-serif;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(10, 92, 54, 0.3);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: #084428;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(10, 92, 54, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: var(--primary);
+            margin-left: 1rem;
+        }
+
+        .btn-secondary:hover {
+            background: #C4A030;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .success-message {
+            background: #E8F5E9;
+            color: #2E7D32;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            border: 2px solid #4CAF50;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .university-name {
+                font-size: 1.5rem;
+            }
+            
+            .card {
+                padding: 1.5rem;
+            }
+            
+            .btn-secondary {
+                margin-left: 0;
+                margin-top: 0.5rem;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="university-name">Université Alioune DIOP de Bambey</div>
+            <div class="header-subtitle">CIAQ/UAD - Évaluation des Enseignements</div>
+            <div class="year-badge">Année Académique 2025-2026</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <form id="evaluationForm">
+            <!-- Section 1: Informations Générales -->
+            <div class="card">
+                <h2 class="section-title">Informations Générales</h2>
+                
+                <div class="form-group">
+                    <label>UFR <span class="required">*</span></label>
+                    <select id="ufr" required>
+                        <option value="">-- Sélectionnez une UFR --</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Département <span class="required">*</span></label>
+                    <select id="departement" required disabled>
+                        <option value="">-- Sélectionnez d'abord une UFR --</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Niveau <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="licence" name="niveau" value="Licence" required>
+                            <label for="licence">Licence</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="master" name="niveau" value="Master">
+                            <label for="master">Master</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Unité d'Enseignement <span class="required">*</span></label>
+                    <select id="ue" required disabled>
+                        <option value="">-- Sélectionnez d'abord un niveau --</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Élément Constitutif <span class="required">*</span></label>
+                    <select id="element" required disabled>
+                        <option value="">-- Sélectionnez d'abord une UE --</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Type d'Élément Constitutif <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="obligatoire" name="type_ec" value="Obligatoire" required>
+                            <label for="obligatoire">Obligatoire</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="optionnel" name="type_ec" value="Optionnel">
+                            <label for="optionnel">Optionnel</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="libre" name="type_ec" value="Libre">
+                            <label for="libre">Libre</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="autre" name="type_ec" value="Autre">
+                            <label for="autre">Autre</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2: Plan de cours et documentation -->
+            <div class="card">
+                <h2 class="section-title">Plan de Cours et Documentation</h2>
+                
+                <div class="form-group">
+                    <label>Le plan de cours est-il exposé avant le démarrage? <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="plan_oui" name="plan_cours" value="Oui" required>
+                            <label for="plan_oui">Oui</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="plan_non" name="plan_cours" value="Non">
+                            <label for="plan_non">Non</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Documentation proposée</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="doc_livres" name="documentation" value="Livres">
+                            <label for="doc_livres">Livres</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="doc_fascicules" name="documentation" value="Fascicules">
+                            <label for="doc_fascicules">Fascicules</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="doc_electroniques" name="documentation" value="Supports électroniques">
+                            <label for="doc_electroniques">Supports électroniques</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="doc_autres" name="documentation" value="Autres">
+                            <label for="doc_autres">Autres</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="doc_aucun" name="documentation" value="Aucun">
+                            <label for="doc_aucun">Aucun</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Les données consignées dans le plan de cours ont-elles été respectées? <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="respect_oui" name="respect_plan" value="Oui" required>
+                            <label for="respect_oui">Oui</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="respect_partie" name="respect_plan" value="En partie">
+                            <label for="respect_partie">En partie</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="respect_non" name="respect_plan" value="Non">
+                            <label for="respect_non">Non</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: Organisation pédagogique -->
+            <div class="card">
+                <h2 class="section-title">Organisation Pédagogique</h2>
+                
+                <div class="form-group">
+                    <label>Quel est le rapport entre le cours magistral, les TD et/ou TP? <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="rapport_faible" name="rapport_cours" value="Faible" required>
+                            <label for="rapport_faible">Faible</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="rapport_moyen" name="rapport_cours" value="Moyen">
+                            <label for="rapport_moyen">Moyen</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="rapport_bon" name="rapport_cours" value="Bon">
+                            <label for="rapport_bon">Bon</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="rapport_tres_bon" name="rapport_cours" value="Très bon">
+                            <label for="rapport_tres_bon">Très bon</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Comment jugez-vous le lien de ce module avec les autres Éléments Constitutifs de l'UE? <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="lien_ec_sans" name="lien_ec" value="Sans rapport" required>
+                            <label for="lien_ec_sans">Sans rapport</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="lien_ec_peu" name="lien_ec" value="Peu liés">
+                            <label for="lien_ec_peu">Peu liés</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="lien_ec_tres" name="lien_ec" value="Très liés">
+                            <label for="lien_ec_tres">Très liés</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Comment jugez-vous le lien de cette UE avec les autres UE de la formation? <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="lien_ue_sans" name="lien_ue" value="Sans rapport" required>
+                            <label for="lien_ue_sans">Sans rapport</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="lien_ue_peu" name="lien_ue" value="Peu liés">
+                            <label for="lien_ue_peu">Peu liés</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="lien_ue_tres" name="lien_ue" value="Très liés">
+                            <label for="lien_ue_tres">Très liés</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 4: Qualité de l'enseignement -->
+            <div class="card">
+                <h2 class="section-title">Qualité de l'Enseignement</h2>
+                
+                <div class="form-group">
+                    <label>Clarté de l'exposé <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="clarte_expose_pas" name="clarte_expose" value="Pas satisfaisant" required>
+                            <label for="clarte_expose_pas">Pas satisfaisant</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="clarte_expose_peu" name="clarte_expose" value="Peu satisfaisant">
+                            <label for="clarte_expose_peu">Peu satisfaisant</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="clarte_expose_sat" name="clarte_expose" value="Satisfaisant">
+                            <label for="clarte_expose_sat">Satisfaisant</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="clarte_expose_tres" name="clarte_expose" value="Très satisfaisant">
+                            <label for="clarte_expose_tres">Très satisfaisant</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Clarté des réponses aux questions posées <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="clarte_reponses_pas" name="clarte_reponses" value="Pas satisfaisant" required>
+                            <label for="clarte_reponses_pas">Pas satisfaisant</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="clarte_reponses_peu" name="clarte_reponses" value="Peu satisfaisant">
+                            <label for="clarte_reponses_peu">Peu satisfaisant</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="clarte_reponses_sat" name="clarte_reponses" value="Satisfaisant">
+                            <label for="clarte_reponses_sat">Satisfaisant</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="clarte_reponses_tres" name="clarte_reponses" value="Très satisfaisant">
+                            <label for="clarte_reponses_tres">Très satisfaisant</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 5: Satisfaction globale -->
+            <div class="card">
+                <h2 class="section-title">Satisfaction Globale</h2>
+                
+                <div class="form-group">
+                    <label>Degré de satisfaction <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="satisfaction_pas" name="satisfaction" value="Pas satisfait" required>
+                            <label for="satisfaction_pas">Pas satisfait</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="satisfaction_peu" name="satisfaction" value="Peu satisfait">
+                            <label for="satisfaction_peu">Peu satisfait</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="satisfaction_sat" name="satisfaction" value="Satisfait">
+                            <label for="satisfaction_sat">Satisfait</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="satisfaction_tres" name="satisfaction" value="Très satisfait">
+                            <label for="satisfaction_tres">Très satisfait</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center;">
+                <button type="submit" class="btn btn-primary" id="submitBtn">
+                    Soumettre l'évaluation
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="resetForm()">Réinitialiser</button>
+            </div>
+        </form>
+
+        <div id="successMessage" class="card hidden">
+            <div class="success-message">
+                ✓ Votre évaluation a été enregistrée avec succès !
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // CONFIGURATION - Remplacez par votre URL Google Apps Script
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx66TEJhNwtsLGmj8gIMnTHL3UFJLmsnDhT2jubmpoUFGT7lumfmwk7w-_k1s_jCY_9/exec';
+        
+        // Structure des données
+        const data = {
+            ufr: {
+                "UFR SJEG (Sciences Juridiques, Économiques et de Gestion)": {
+                    departements: ["Droit", "Économie et Gestion"],
+                    ue: {
+                        Licence: {
+                            "Droit Civil": ["Introduction au droit civil", "Droit des personnes", "Droit des biens"],
+                            "Droit Commercial": ["Actes de commerce", "Sociétés commerciales"],
+                            "Économie Générale": ["Microéconomie", "Macroéconomie", "Économie internationale"],
+                            "Gestion des Entreprises": ["Management", "Marketing", "GRH"],
+                            "Comptabilité": ["Comptabilité générale", "Comptabilité analytique"]
+                        },
+                        Master: {
+                            "Droit des Affaires": ["Droit des contrats", "Droit fiscal des entreprises", "Droit des sociétés"],
+                            "Droit Public": ["Droit administratif", "Droit constitutionnel approfondi"],
+                            "Finance d'Entreprise": ["Analyse financière", "Gestion de portefeuille", "Finance de marché"],
+                            "Management Stratégique": ["Stratégie d'entreprise", "Management de projet", "Leadership"]
+                        }
+                    }
+                },
+                "UFR SATIC (Sciences Appliquées et Technologies de l'Information et de la Communication)": {
+                    departements: ["Informatique", "Mathématiques", "Physique"],
+                    ue: {
+                        Licence: {
+                            "Algorithmique": ["Algorithmique et structures de données", "Complexité algorithmique"],
+                            "Programmation": ["Programmation C", "Programmation orientée objet", "Programmation web"],
+                            "Bases de Données": ["Modélisation de données", "SQL", "Administration BDD"],
+                            "Réseaux": ["Architecture réseaux", "Protocoles TCP/IP", "Sécurité réseaux"],
+                            "Mathématiques Appliquées": ["Analyse numérique", "Statistiques", "Probabilités"]
+                        },
+                        Master: {
+                            "Intelligence Artificielle": ["Machine Learning", "Deep Learning", "Traitement du langage naturel"],
+                            "Systèmes Distribués": ["Cloud Computing", "Architectures distribuées", "Microservices"],
+                            "Sécurité Informatique": ["Cryptographie", "Sécurité des systèmes", "Audit de sécurité"],
+                            "Big Data": ["Hadoop", "Spark", "Data Mining", "NoSQL"]
+                        }
+                    }
+                },
+                "UFR SET (Sciences et Technologies)": {
+                    departements: ["Chimie", "Biologie", "Géologie"],
+                    ue: {
+                        Licence: {
+                            "Chimie Organique": ["Chimie organique I", "Chimie organique II", "Synthèse organique"],
+                            "Chimie Minérale": ["Chimie inorganique", "Chimie des solutions"],
+                            "Biologie Cellulaire": ["Structure cellulaire", "Métabolisme cellulaire", "Génétique"],
+                            "Écologie": ["Écologie générale", "Écologie des populations", "Écosystèmes"],
+                            "Géologie Générale": ["Minéralogie", "Pétrographie", "Géologie structurale"]
+                        },
+                        Master: {
+                            "Chimie Analytique": ["Spectroscopie", "Chromatographie", "Électrochimie"],
+                            "Biotechnologie": ["Génie génétique", "Biologie moléculaire", "Bioprocessus"],
+                            "Géologie Pétrolière": ["Géologie du pétrole", "Géophysique", "Réservoirs pétroliers"]
+                        }
+                    }
+                },
+                "UFR CRAC (Civilisations, Religions, Arts et Communication)": {
+                    departements: ["Lettres Modernes", "Histoire", "Géographie", "Sociologie"],
+                    ue: {
+                        Licence: {
+                            "Littérature Française": ["Littérature classique", "Littérature moderne", "Analyse littéraire"],
+                            "Histoire Contemporaine": ["Histoire du 19e siècle", "Histoire du 20e siècle", "Histoire actuelle"],
+                            "Géographie Humaine": ["Démographie", "Géographie urbaine", "Géographie rurale"],
+                            "Sociologie Générale": ["Théories sociologiques", "Méthodologie", "Sociologie des organisations"]
+                        },
+                        Master: {
+                            "Littérature Comparée": ["Littérature africaine", "Littérature européenne", "Théories littéraires"],
+                            "Histoire Africaine": ["Histoire précoloniale", "Histoire coloniale", "Histoire postcoloniale"],
+                            "Aménagement du Territoire": ["Urbanisme", "Développement régional", "SIG"],
+                            "Sociologie du Développement": ["Développement économique", "Politiques publiques", "Sociologie rurale"]
+                        }
+                    }
+                }
+            }
+        };
+
+        // Remplir les UFR
+        const ufrSelect = document.getElementById('ufr');
+        Object.keys(data.ufr).forEach(ufr => {
+            const option = document.createElement('option');
+            option.value = ufr;
+            option.textContent = ufr;
+            ufrSelect.appendChild(option);
+        });
+
+        // Gérer le changement d'UFR
+        ufrSelect.addEventListener('change', function() {
+            const departementSelect = document.getElementById('departement');
+            const ueSelect = document.getElementById('ue');
+            const elementSelect = document.getElementById('element');
+            
+            departementSelect.innerHTML = '<option value="">-- Sélectionnez un département --</option>';
+            ueSelect.innerHTML = '<option value="">-- Sélectionnez d\'abord un niveau --</option>';
+            elementSelect.innerHTML = '<option value="">-- Sélectionnez d\'abord une UE --</option>';
+            
+            if (this.value) {
+                departementSelect.disabled = false;
+                const departements = data.ufr[this.value].departements;
+                departements.forEach(dept => {
+                    const option = document.createElement('option');
+                    option.value = dept;
+                    option.textContent = dept;
+                    departementSelect.appendChild(option);
+                });
+            } else {
+                departementSelect.disabled = true;
+            }
+            
+            ueSelect.disabled = true;
+            elementSelect.disabled = true;
+        });
+
+        // Gérer le changement de niveau
+        document.querySelectorAll('input[name="niveau"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const ufrValue = document.getElementById('ufr').value;
+                const ueSelect = document.getElementById('ue');
+                const elementSelect = document.getElementById('element');
+                
+                elementSelect.innerHTML = '<option value="">-- Sélectionnez d\'abord une UE --</option>';
+                elementSelect.disabled = true;
+                
+                if (ufrValue && this.value) {
+                    ueSelect.disabled = false;
+                    ueSelect.innerHTML = '<option value="">-- Sélectionnez une UE --</option>';
+                    
+                    const ues = Object.keys(data.ufr[ufrValue].ue[this.value]);
+                    ues.forEach(ue => {
+                        const option = document.createElement('option');
+                        option.value = ue;
+                        option.textContent = ue;
+                        ueSelect.appendChild(option);
+                    });
+                } else {
+                    ueSelect.disabled = true;
+                }
+            });
+        });
+
+        // Gérer le changement d'UE pour charger les EC
+        document.getElementById('ue').addEventListener('change', function() {
+            const ufrValue = document.getElementById('ufr').value;
+            const niveauValue = document.querySelector('input[name="niveau"]:checked')?.value;
+            const elementSelect = document.getElementById('element');
+            
+            if (ufrValue && niveauValue && this.value) {
+                elementSelect.disabled = false;
+                elementSelect.innerHTML = '<option value="">-- Sélectionnez un EC --</option>';
+                
+                const ecs = data.ufr[ufrValue].ue[niveauValue][this.value];
+                ecs.forEach(ec => {
+                    const option = document.createElement('option');
+                    option.value = ec;
+                    option.textContent = ec;
+                    elementSelect.appendChild(option);
+                });
+            } else {
+                elementSelect.disabled = true;
+                elementSelect.innerHTML = '<option value="">-- Sélectionnez d\'abord une UE --</option>';
+            }
+        });
+
+        // Gérer la soumission du formulaire
+        document.getElementById('evaluationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = 'Envoi en cours...<span class="loading"></span>';
+            
+            const formData = new FormData(this);
+            const formObject = {
+                timestamp: new Date().toISOString(),
+                annee_academique: "2025-2026",
+                ufr: document.getElementById('ufr').value,
+                departement: document.getElementById('departement').value,
+                niveau: document.querySelector('input[name="niveau"]:checked').value,
+                ue: document.getElementById('ue').value,
+                element_constitutif: document.getElementById('element').value,
+                type_ec: document.querySelector('input[name="type_ec"]:checked').value,
+                plan_cours: document.querySelector('input[name="plan_cours"]:checked').value,
+                documentation: Array.from(document.querySelectorAll('input[name="documentation"]:checked')).map(cb => cb.value).join(', '),
+                respect_plan: document.querySelector('input[name="respect_plan"]:checked').value,
+                rapport_cours: document.querySelector('input[name="rapport_cours"]:checked').value,
+                lien_ec: document.querySelector('input[name="lien_ec"]:checked').value,
+                lien_ue: document.querySelector('input[name="lien_ue"]:checked').value,
+                clarte_expose: document.querySelector('input[name="clarte_expose"]:checked').value,
+                clarte_reponses: document.querySelector('input[name="clarte_reponses"]:checked').value,
+                satisfaction: document.querySelector('input[name="satisfaction"]:checked').value
+            };
+            
+            try {
+                // Envoyer à Google Sheets
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formObject)
+                });
+                
+                // Afficher le message de succès
+                document.getElementById('evaluationForm').classList.add('hidden');
+                document.getElementById('successMessage').classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                // Réinitialiser le formulaire après 3 secondes
+                setTimeout(() => {
+                    document.getElementById('evaluationForm').classList.remove('hidden');
+                    document.getElementById('successMessage').classList.add('hidden');
+                    resetForm();
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                }, 3000);
+                
+            } catch (error) {
+                console.error('Erreur:', error);
+                alert('Une erreur est survenue lors de l\'envoi. Veuillez réessayer.');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
+            }
+        });
+
+        function resetForm() {
+            document.getElementById('evaluationForm').reset();
+            document.getElementById('departement').disabled = true;
+            document.getElementById('ue').disabled = true;
+            document.getElementById('element').disabled = true;
+        }
+    </script>
+</body>
+</html>
