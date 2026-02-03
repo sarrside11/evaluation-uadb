@@ -280,270 +280,347 @@
         <form id="evaluationForm">
             <!-- Section 1: Informations Générales -->
             <div class="card">
-                <h2 class="section-title">Informations Générales</h2>
+                <h2 class="section-title">المعلومات العامة</h2>
+                <div class="section-title-fr">Informations Générales</div>
                 
                 <div class="form-group">
-                    <label>UFR <span class="required">*</span></label>
-                    <select id="ufr" required>
-                        <option value="">-- Sélectionnez une UFR --</option>
+                    <label>القسم <span class="required">*</span></label>
+                    <div class="label-fr">Département</div>
+                    <select id="departement" required>
+                        <option value="">-- اختر القسم / Sélectionnez le département --</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label>Département <span class="required">*</span></label>
-                    <select id="departement" required disabled>
-                        <option value="">-- Sélectionnez d'abord une UFR --</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Niveau <span class="required">*</span></label>
+                    <label>المستوى <span class="required">*</span></label>
+                    <div class="label-fr">Niveau</div>
                     <div class="radio-group">
                         <div class="radio-option">
                             <input type="radio" id="licence" name="niveau" value="Licence" required>
-                            <label for="licence">Licence</label>
+                            <label for="licence">
+                                ليسانس
+                                <span class="option-text-fr">Licence</span>
+                            </label>
                         </div>
                         <div class="radio-option">
                             <input type="radio" id="master" name="niveau" value="Master">
-                            <label for="master">Master</label>
+                            <label for="master">
+                                ماجستير
+                                <span class="option-text-fr">Master</span>
+                            </label>
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Unité d'Enseignement <span class="required">*</span></label>
+                    <label>الوحدة التعليمية <span class="required">*</span></label>
+                    <div class="label-fr">Unité d'Enseignement</div>
                     <select id="ue" required disabled>
-                        <option value="">-- Sélectionnez d'abord un niveau --</option>
+                        <option value="">-- اختر المستوى أولاً / Sélectionnez d'abord le niveau --</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label>Élément Constitutif <span class="required">*</span></label>
+                    <label>المادة (العنصر المكون) <span class="required">*</span></label>
+                    <div class="label-fr">Élément Constitutif (Matière)</div>
                     <select id="element" required disabled>
-                        <option value="">-- Sélectionnez d'abord une UE --</option>
+                        <option value="">-- اختر الوحدة التعليمية أولاً / Sélectionnez d'abord l'UE --</option>
                     </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Type d'Élément Constitutif <span class="required">*</span></label>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="obligatoire" name="type_ec" value="Obligatoire" required>
-                            <label for="obligatoire">Obligatoire</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="optionnel" name="type_ec" value="Optionnel">
-                            <label for="optionnel">Optionnel</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="libre" name="type_ec" value="Libre">
-                            <label for="libre">Libre</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="autre" name="type_ec" value="Autre">
-                            <label for="autre">Autre</label>
-                        </div>
-                    </div>
                 </div>
             </div>
 
-            <!-- Section 2: Plan de cours et documentation -->
+            <!-- Section 2: خطة البرنامج والوثائق -->
             <div class="card">
-                <h2 class="section-title">Plan de Cours et Documentation</h2>
+                <h2 class="section-title">خطة البرنامج والوثائق</h2>
+                <div class="section-title-fr">Plan de Cours et Documentation</div>
                 
                 <div class="form-group">
-                    <label>Le plan de cours est-il exposé avant le démarrage? <span class="required">*</span></label>
+                    <label>هل تم عرض خطة البرنامج المقرر قبل بداية الدروس؟ <span class="required">*</span></label>
+                    <div class="label-fr">Le plan de cours est-il exposé avant le démarrage?</div>
                     <div class="radio-group">
                         <div class="radio-option">
-                            <input type="radio" id="plan_oui" name="plan_cours" value="Oui" required>
-                            <label for="plan_oui">Oui</label>
+                            <input type="radio" id="plan_oui" name="plan_cours" value="نعم" required>
+                            <label for="plan_oui">
+                                نعم
+                                <span class="option-text-fr">Oui</span>
+                            </label>
                         </div>
                         <div class="radio-option">
-                            <input type="radio" id="plan_non" name="plan_cours" value="Non">
-                            <label for="plan_non">Non</label>
+                            <input type="radio" id="plan_non" name="plan_cours" value="لا">
+                            <label for="plan_non">
+                                لا
+                                <span class="option-text-fr">Non</span>
+                            </label>
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Documentation proposée</label>
+                    <label>الوثائق المتوفرة في أيدي الطلاب</label>
+                    <div class="label-fr">Documentation proposée</div>
                     <div class="checkbox-group">
                         <div class="checkbox-option">
-                            <input type="checkbox" id="doc_livres" name="documentation" value="Livres">
-                            <label for="doc_livres">Livres</label>
+                            <input type="checkbox" id="doc_livres" name="documentation" value="كتب">
+                            <label for="doc_livres">
+                                كتب
+                                <span class="option-text-fr">Livres</span>
+                            </label>
                         </div>
                         <div class="checkbox-option">
-                            <input type="checkbox" id="doc_fascicules" name="documentation" value="Fascicules">
-                            <label for="doc_fascicules">Fascicules</label>
+                            <input type="checkbox" id="doc_fascicules" name="documentation" value="مذكرات">
+                            <label for="doc_fascicules">
+                                مذكرات
+                                <span class="option-text-fr">Fascicules</span>
+                            </label>
                         </div>
                         <div class="checkbox-option">
-                            <input type="checkbox" id="doc_electroniques" name="documentation" value="Supports électroniques">
-                            <label for="doc_electroniques">Supports électroniques</label>
+                            <input type="checkbox" id="doc_electroniques" name="documentation" value="وسائل إلكترونية">
+                            <label for="doc_electroniques">
+                                وسائل إلكترونية
+                                <span class="option-text-fr">Supports électroniques</span>
+                            </label>
                         </div>
                         <div class="checkbox-option">
-                            <input type="checkbox" id="doc_autres" name="documentation" value="Autres">
-                            <label for="doc_autres">Autres</label>
-                        </div>
-                        <div class="checkbox-option">
-                            <input type="checkbox" id="doc_aucun" name="documentation" value="Aucun">
-                            <label for="doc_aucun">Aucun</label>
+                            <input type="checkbox" id="doc_aucun" name="documentation" value="لا توجد">
+                            <label for="doc_aucun">
+                                لا توجد
+                                <span class="option-text-fr">Aucun</span>
+                            </label>
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Les données consignées dans le plan de cours ont-elles été respectées? <span class="required">*</span></label>
+                    <label>هل يلتزم الأستاذ بخطة البرنامج المقرر؟ <span class="required">*</span></label>
+                    <div class="label-fr">Les données consignées dans le plan de cours ont-elles été respectées?</div>
                     <div class="radio-group">
                         <div class="radio-option">
-                            <input type="radio" id="respect_oui" name="respect_plan" value="Oui" required>
-                            <label for="respect_oui">Oui</label>
+                            <input type="radio" id="respect_oui" name="respect_plan" value="نعم" required>
+                            <label for="respect_oui">
+                                نعم
+                                <span class="option-text-fr">Oui</span>
+                            </label>
                         </div>
                         <div class="radio-option">
-                            <input type="radio" id="respect_partie" name="respect_plan" value="En partie">
-                            <label for="respect_partie">En partie</label>
+                            <input type="radio" id="respect_partie" name="respect_plan" value="جزئيًا">
+                            <label for="respect_partie">
+                                جزئيًا
+                                <span class="option-text-fr">En partie</span>
+                            </label>
                         </div>
                         <div class="radio-option">
-                            <input type="radio" id="respect_non" name="respect_plan" value="Non">
-                            <label for="respect_non">Non</label>
+                            <input type="radio" id="respect_non" name="respect_plan" value="لا">
+                            <label for="respect_non">
+                                لا
+                                <span class="option-text-fr">Non</span>
+                            </label>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Section 3: Organisation pédagogique -->
+            <!-- Section 3: التنظيم التربوي -->
             <div class="card">
-                <h2 class="section-title">Organisation Pédagogique</h2>
+                <h2 class="section-title">التنظيم التربوي</h2>
+                <div class="section-title-fr">Organisation Pédagogique</div>
                 
                 <div class="form-group">
-                    <label>Quel est le rapport entre le cours magistral, les TD et/ou TP? <span class="required">*</span></label>
+                    <label>العلاقة بين دروس المحاضرات، والأعمال التوجيهية والتطبيقية <span class="required">*</span></label>
+                    <div class="label-fr">Quel est le rapport entre le cours magistral, les TD et/ou TP?</div>
                     <div class="radio-group">
                         <div class="radio-option">
-                            <input type="radio" id="rapport_faible" name="rapport_cours" value="Faible" required>
-                            <label for="rapport_faible">Faible</label>
+                            <input type="radio" id="rapport_faible" name="rapport_cours" value="ضعيفة" required>
+                            <label for="rapport_faible">
+                                ضعيفة
+                                <span class="option-text-fr">Faible</span>
+                            </label>
                         </div>
                         <div class="radio-option">
-                            <input type="radio" id="rapport_moyen" name="rapport_cours" value="Moyen">
-                            <label for="rapport_moyen">Moyen</label>
+                            <input type="radio" id="rapport_moyen" name="rapport_cours" value="متوسطة">
+                            <label for="rapport_moyen">
+                                متوسطة
+                                <span class="option-text-fr">Moyen</span>
+                            </label>
                         </div>
                         <div class="radio-option">
-                            <input type="radio" id="rapport_bon" name="rapport_cours" value="Bon">
-                            <label for="rapport_bon">Bon</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="rapport_tres_bon" name="rapport_cours" value="Très bon">
-                            <label for="rapport_tres_bon">Très bon</label>
+                            <input type="radio" id="rapport_bon" name="rapport_cours" value="ممتازة">
+                            <label for="rapport_bon">
+                                ممتازة
+                                <span class="option-text-fr">Excellent</span>
+                            </label>
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Comment jugez-vous le lien de ce module avec les autres Éléments Constitutifs de l'UE? <span class="required">*</span></label>
+                    <label>ما رأيك في العلاقة بين هذه المادة والمواد الأخرى في الوحدة التعليمية؟ <span class="required">*</span></label>
+                    <div class="label-fr">Comment jugez-vous le lien de ce module avec les autres EC de l'UE?</div>
                     <div class="radio-group">
                         <div class="radio-option">
-                            <input type="radio" id="lien_ec_sans" name="lien_ec" value="Sans rapport" required>
-                            <label for="lien_ec_sans">Sans rapport</label>
+                            <input type="radio" id="lien_ec_sans" name="lien_ec" value="ضعيفة" required>
+                            <label for="lien_ec_sans">
+                                ضعيفة
+                                <span class="option-text-fr">Faible</span>
+                            </label>
                         </div>
                         <div class="radio-option">
-                            <input type="radio" id="lien_ec_peu" name="lien_ec" value="Peu liés">
-                            <label for="lien_ec_peu">Peu liés</label>
+                            <input type="radio" id="lien_ec_peu" name="lien_ec" value="متوسطة">
+                            <label for="lien_ec_peu">
+                                متوسطة
+                                <span class="option-text-fr">Moyen</span>
+                            </label>
                         </div>
                         <div class="radio-option">
-                            <input type="radio" id="lien_ec_tres" name="lien_ec" value="Très liés">
-                            <label for="lien_ec_tres">Très liés</label>
+                            <input type="radio" id="lien_ec_tres" name="lien_ec" value="ممتازة">
+                            <label for="lien_ec_tres">
+                                ممتازة
+                                <span class="option-text-fr">Excellent</span>
+                            </label>
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Comment jugez-vous le lien de cette UE avec les autres UE de la formation? <span class="required">*</span></label>
+                    <label>ما رأيك في العلاقة بين هذه الوحدة والوحدات التعليمية الأخرى في القسم؟ <span class="required">*</span></label>
+                    <div class="label-fr">Comment jugez-vous le lien de cette UE avec les autres UE?</div>
                     <div class="radio-group">
                         <div class="radio-option">
-                            <input type="radio" id="lien_ue_sans" name="lien_ue" value="Sans rapport" required>
-                            <label for="lien_ue_sans">Sans rapport</label>
+                            <input type="radio" id="lien_ue_sans" name="lien_ue" value="ضعيفة" required>
+                            <label for="lien_ue_sans">
+                                ضعيفة
+                                <span class="option-text-fr">Faible</span>
+                            </label>
                         </div>
                         <div class="radio-option">
-                            <input type="radio" id="lien_ue_peu" name="lien_ue" value="Peu liés">
-                            <label for="lien_ue_peu">Peu liés</label>
+                            <input type="radio" id="lien_ue_peu" name="lien_ue" value="متوسطة">
+                            <label for="lien_ue_peu">
+                                متوسطة
+                                <span class="option-text-fr">Moyen</span>
+                            </label>
                         </div>
                         <div class="radio-option">
-                            <input type="radio" id="lien_ue_tres" name="lien_ue" value="Très liés">
-                            <label for="lien_ue_tres">Très liés</label>
+                            <input type="radio" id="lien_ue_tres" name="lien_ue" value="ممتازة">
+                            <label for="lien_ue_tres">
+                                ممتازة
+                                <span class="option-text-fr">Excellent</span>
+                            </label>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Section 4: Qualité de l'enseignement -->
+            <!-- Section 4: جودة التدريس -->
             <div class="card">
-                <h2 class="section-title">Qualité de l'Enseignement</h2>
+                <h2 class="section-title">جودة التدريس</h2>
+                <div class="section-title-fr">Qualité de l'Enseignement</div>
                 
                 <div class="form-group">
-                    <label>Clarté de l'exposé <span class="required">*</span></label>
+                    <label>وضوح الشرح <span class="required">*</span></label>
+                    <div class="label-fr">Clarté de l'exposé</div>
                     <div class="radio-group">
                         <div class="radio-option">
-                            <input type="radio" id="clarte_expose_pas" name="clarte_expose" value="Pas satisfaisant" required>
-                            <label for="clarte_expose_pas">Pas satisfaisant</label>
+                            <input type="radio" id="clarte_expose_pas" name="clarte_expose" value="ليس مُرضِيا على الإطلاق" required>
+                            <label for="clarte_expose_pas">
+                                ليس مُرضِيا على الإطلاق
+                                <span class="option-text-fr">Pas satisfaisant</span>
+                            </label>
                         </div>
                         <div class="radio-option">
-                            <input type="radio" id="clarte_expose_peu" name="clarte_expose" value="Peu satisfaisant">
-                            <label for="clarte_expose_peu">Peu satisfaisant</label>
+                            <input type="radio" id="clarte_expose_peu" name="clarte_expose" value="متوسط">
+                            <label for="clarte_expose_peu">
+                                متوسط
+                                <span class="option-text-fr">Peu satisfaisant</span>
+                            </label>
                         </div>
                         <div class="radio-option">
-                            <input type="radio" id="clarte_expose_sat" name="clarte_expose" value="Satisfaisant">
-                            <label for="clarte_expose_sat">Satisfaisant</label>
+                            <input type="radio" id="clarte_expose_sat" name="clarte_expose" value="مُرضٍ">
+                            <label for="clarte_expose_sat">
+                                مُرضٍ
+                                <span class="option-text-fr">Satisfaisant</span>
+                            </label>
                         </div>
                         <div class="radio-option">
-                            <input type="radio" id="clarte_expose_tres" name="clarte_expose" value="Très satisfaisant">
-                            <label for="clarte_expose_tres">Très satisfaisant</label>
+                            <input type="radio" id="clarte_expose_tres" name="clarte_expose" value="مُرضٍ جدًا">
+                            <label for="clarte_expose_tres">
+                                مُرضٍ جدًا
+                                <span class="option-text-fr">Très satisfaisant</span>
+                            </label>
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Clarté des réponses aux questions posées <span class="required">*</span></label>
+                    <label>وضوح الإجابة عن أسئلة الطلاب <span class="required">*</span></label>
+                    <div class="label-fr">Clarté des réponses aux questions posées</div>
                     <div class="radio-group">
                         <div class="radio-option">
-                            <input type="radio" id="clarte_reponses_pas" name="clarte_reponses" value="Pas satisfaisant" required>
-                            <label for="clarte_reponses_pas">Pas satisfaisant</label>
+                            <input type="radio" id="clarte_reponses_pas" name="clarte_reponses" value="ليس مُرضِيا على الإطلاق" required>
+                            <label for="clarte_reponses_pas">
+                                ليس مُرضِيا على الإطلاق
+                                <span class="option-text-fr">Pas satisfaisant</span>
+                            </label>
                         </div>
                         <div class="radio-option">
-                            <input type="radio" id="clarte_reponses_peu" name="clarte_reponses" value="Peu satisfaisant">
-                            <label for="clarte_reponses_peu">Peu satisfaisant</label>
+                            <input type="radio" id="clarte_reponses_peu" name="clarte_reponses" value="متوسط">
+                            <label for="clarte_reponses_peu">
+                                متوسط
+                                <span class="option-text-fr">Peu satisfaisant</span>
+                            </label>
                         </div>
                         <div class="radio-option">
-                            <input type="radio" id="clarte_reponses_sat" name="clarte_reponses" value="Satisfaisant">
-                            <label for="clarte_reponses_sat">Satisfaisant</label>
+                            <input type="radio" id="clarte_reponses_sat" name="clarte_reponses" value="مُرضٍ">
+                            <label for="clarte_reponses_sat">
+                                مُرضٍ
+                                <span class="option-text-fr">Satisfaisant</span>
+                            </label>
                         </div>
                         <div class="radio-option">
-                            <input type="radio" id="clarte_reponses_tres" name="clarte_reponses" value="Très satisfaisant">
-                            <label for="clarte_reponses_tres">Très satisfaisant</label>
+                            <input type="radio" id="clarte_reponses_tres" name="clarte_reponses" value="مُرضٍ جدًا">
+                            <label for="clarte_reponses_tres">
+                                مُرضٍ جدًا
+                                <span class="option-text-fr">Très satisfaisant</span>
+                            </label>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Section 5: Satisfaction globale -->
+            <!-- Section 5: الرضا العام -->
             <div class="card">
-                <h2 class="section-title">Satisfaction Globale</h2>
+                <h2 class="section-title">الرضا العام</h2>
+                <div class="section-title-fr">Satisfaction Globale</div>
                 
                 <div class="form-group">
-                    <label>Degré de satisfaction <span class="required">*</span></label>
+                    <label>درجة رضى الطالب عن أداء الأستاذ بصفة عامة <span class="required">*</span></label>
+                    <div class="label-fr">Degré de satisfaction</div>
                     <div class="radio-group">
                         <div class="radio-option">
-                            <input type="radio" id="satisfaction_pas" name="satisfaction" value="Pas satisfait" required>
-                            <label for="satisfaction_pas">Pas satisfait</label>
+                            <input type="radio" id="satisfaction_pas" name="satisfaction" value="لست راضِيا عنه على الإطلاق" required>
+                            <label for="satisfaction_pas">
+                                لست راضِيا عنه على الإطلاق
+                                <span class="option-text-fr">Pas satisfait</span>
+                            </label>
                         </div>
                         <div class="radio-option">
-                            <input type="radio" id="satisfaction_peu" name="satisfaction" value="Peu satisfait">
-                            <label for="satisfaction_peu">Peu satisfait</label>
+                            <input type="radio" id="satisfaction_peu" name="satisfaction" value="راضٍ عنه رضى متوسطا">
+                            <label for="satisfaction_peu">
+                                راضٍ عنه رضى متوسطا
+                                <span class="option-text-fr">Peu satisfait</span>
+                            </label>
                         </div>
                         <div class="radio-option">
-                            <input type="radio" id="satisfaction_sat" name="satisfaction" value="Satisfait">
-                            <label for="satisfaction_sat">Satisfait</label>
+                            <input type="radio" id="satisfaction_sat" name="satisfaction" value="راضٍ عنه">
+                            <label for="satisfaction_sat">
+                                راضٍ عنه
+                                <span class="option-text-fr">Satisfait</span>
+                            </label>
                         </div>
                         <div class="radio-option">
-                            <input type="radio" id="satisfaction_tres" name="satisfaction" value="Très satisfait">
-                            <label for="satisfaction_tres">Très satisfait</label>
+                            <input type="radio" id="satisfaction_tres" name="satisfaction" value="راضٍ عنه جدًا">
+                            <label for="satisfaction_tres">
+                                راضٍ عنه جدًا
+                                <span class="option-text-fr">Très satisfait</span>
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -551,15 +628,16 @@
 
             <div style="text-align: center;">
                 <button type="submit" class="btn btn-primary" id="submitBtn">
-                    Soumettre l'évaluation
+                    إرسال التقييم / Soumettre
                 </button>
-                <button type="button" class="btn btn-secondary" onclick="resetForm()">Réinitialiser</button>
+                <button type="button" class="btn btn-secondary" onclick="resetForm()">إعادة ضبط / Réinitialiser</button>
             </div>
         </form>
 
         <div id="successMessage" class="card hidden">
             <div class="success-message">
-                ✓ Votre évaluation a été enregistrée avec succès !
+                ✓ تم تسجيل تقييمك بنجاح! <br>
+                Votre évaluation a été enregistrée avec succès !
             </div>
         </div>
     </div>
