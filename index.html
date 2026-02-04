@@ -80,7 +80,7 @@
         .year-badge {
             display: inline-block;
             background: var(--secondary);
-            color: var(--primary);
+            color: white;
             padding: 0.5rem 1.5rem;
             border-radius: 50px;
             font-family: 'Montserrat', sans-serif;
@@ -167,6 +167,18 @@
             box-shadow: 0 0 0 3px rgba(10, 92, 54, 0.1);
         }
 
+        .info-badge {
+            display: inline-block;
+            background: #E3F2FD;
+            color: #1976D2;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
         .radio-group, .checkbox-group {
             display: flex;
             flex-direction: column;
@@ -247,13 +259,13 @@
         }
 
         .btn-secondary {
-            background: var(--secondary);
-            color: var(--primary);
+            background: #6c757d;
+            color: white;
             margin-right: 1rem;
         }
 
         .btn-secondary:hover {
-            background: #C4A030;
+            background: #5a6268;
         }
 
         .hidden {
@@ -330,44 +342,38 @@
                 </div>
 
                 <div class="form-group">
-                    <label>المستوى <span class="required">*</span></label>
-                    <div class="label-fr">Niveau</div>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="licence" name="niveau" value="Licence" required>
-                            <label for="licence">
-                                ليسانس
-                                <span class="option-text-fr">Licence</span>
-                            </label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="master" name="niveau" value="Master">
-                            <label for="master">
-                                ماجستير
-                                <span class="option-text-fr">Master</span>
-                            </label>
-                        </div>
-                    </div>
+                    <label>المستوى الأكاديمي <span class="required">*</span></label>
+                    <div class="label-fr">Niveau Académique</div>
+                    <select id="niveau_academique" required>
+                        <option value="">-- اختر المستوى الأكاديمي / Sélectionnez le niveau --</option>
+                        <option value="L1">L1 - السنة الأولى / Première année</option>
+                        <option value="L2">L2 - السنة الثانية / Deuxième année</option>
+                        <option value="L3">L3 - السنة الثالثة / Troisième année</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>الفصل الدراسي <span class="required">*</span></label>
+                    <div class="label-fr">Semestre</div>
+                    <select id="semestre" required disabled>
+                        <option value="">-- اختر المستوى الأكاديمي أولاً / Sélectionnez d'abord le niveau --</option>
+                    </select>
                 </div>
 
                 <div class="form-group">
                     <label>الوحدة التعليمية <span class="required">*</span></label>
                     <div class="label-fr">Unité d'Enseignement</div>
                     <select id="ue" required disabled>
-                        <option value="">-- اختر المستوى أولاً / Sélectionnez d'abord le niveau --</option>
+                        <option value="">-- اختر الفصل الدراسي أولاً / Sélectionnez d'abord le semestre --</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label>المادة<span class="required">*</span></label>
+                    <label>المادة <span class="required">*</span></label>
                     <div class="label-fr">Élément Constitutif (Matière)</div>
                     <select id="element" required disabled>
                         <option value="">-- اختر الوحدة التعليمية أولاً / Sélectionnez d'abord l'UE --</option>
                     </select>
-                </div>
-                <div class="form-group">
-                    <label>Type d'Élément Constitutif <span class="required">*</span></label>
-                    
                 </div>
             </div>
 
@@ -688,6 +694,31 @@
         // CONFIGURATION
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx66TEJhNwtsLGmj8gIMnTHL3UFJLmsnDhT2jubmpoUFGT7lumfmwk7w-_k1s_jCY_9/exec';
         
+        // Fonction pour extraire le niveau et le semestre depuis le code UE
+        function extractNiveauAndSemestre(ueCode) {
+            // Format: "لغة 111" ou "دراسات 241"
+            // Les deux premiers chiffres déterminent niveau et semestre
+            const match = ueCode.match(/(\d)(\d)\d/);
+            if (match) {
+                const firstDigit = match[1];  // 1, 2, ou 3
+                const secondDigit = match[2]; // 1, 2, 3, 4, 5, ou 6
+                
+                // Mapping des codes vers niveau et semestre
+                const mapping = {
+                    '11': { niveau: 'L1', semestre: 'S1' },
+                    '12': { niveau: 'L1', semestre: 'S2' },
+                    '23': { niveau: 'L2', semestre: 'S3' },
+                    '24': { niveau: 'L2', semestre: 'S4' },
+                    '35': { niveau: 'L3', semestre: 'S5' },
+                    '36': { niveau: 'L3', semestre: 'S6' }
+                };
+                
+                const code = firstDigit + secondDigit;
+                return mapping[code] || { niveau: '', semestre: '' };
+            }
+            return { niveau: '', semestre: '' };
+        }
+        
         // Données du curriculum
         const curriculumData = {
             "LLA": {
@@ -740,6 +771,27 @@
             }
         };
 
+        // Variables globales pour stocker niveau et semestre
+        let currentNiveauAcademique = '';
+        let currentSemestre = '';
+
+        // Mapping des semestres avec labels arabes
+        const semestreLabels = {
+            'S1': 'الفصل الأول / Semestre 1',
+            'S2': 'الفصل الثاني / Semestre 2',
+            'S3': 'الفصل الثالث / Semestre 3',
+            'S4': 'الفصل الرابع / Semestre 4',
+            'S5': 'الفصل الخامس / Semestre 5',
+            'S6': 'الفصل السادس / Semestre 6'
+        };
+
+        // Mapping des semestres par niveau
+        const semestresByNiveau = {
+            'L1': ['S1', 'S2'],
+            'L2': ['S3', 'S4'],
+            'L3': ['S5', 'S6']
+        };
+
         // Remplir les départements
         const departementSelect = document.getElementById('departement');
         Object.keys(curriculumData).forEach(dept => {
@@ -751,39 +803,83 @@
 
         // Gérer le changement de département
         departementSelect.addEventListener('change', function() {
+            const niveauSelect = document.getElementById('niveau_academique');
+            const semestreSelect = document.getElementById('semestre');
             const ueSelect = document.getElementById('ue');
             const elementSelect = document.getElementById('element');
             
-            ueSelect.innerHTML = '<option value="">-- اختر المستوى أولاً / Sélectionnez d\'abord le niveau --</option>';
+            // Réinitialiser tous les selects suivants
+            niveauSelect.value = '';
+            semestreSelect.innerHTML = '<option value="">-- اختر المستوى الأكاديمي أولاً / Sélectionnez d\'abord le niveau --</option>';
+            semestreSelect.disabled = true;
+            ueSelect.innerHTML = '<option value="">-- اختر الفصل الدراسي أولاً / Sélectionnez d\'abord le semestre --</option>';
+            ueSelect.disabled = true;
             elementSelect.innerHTML = '<option value="">-- اختر الوحدة التعليمية أولاً / Sélectionnez d\'abord l\'UE --</option>';
-            
-            ueSelect.disabled = !this.value;
             elementSelect.disabled = true;
         });
 
-        // Gérer le changement de niveau
-        document.querySelectorAll('input[name="niveau"]').forEach(radio => {
-            radio.addEventListener('change', function() {
-                const deptValue = document.getElementById('departement').value;
-                const ueSelect = document.getElementById('ue');
-                const elementSelect = document.getElementById('element');
+        // Gérer le changement de niveau académique
+        document.getElementById('niveau_academique').addEventListener('change', function() {
+            const semestreSelect = document.getElementById('semestre');
+            const ueSelect = document.getElementById('ue');
+            const elementSelect = document.getElementById('element');
+            
+            // Réinitialiser les selects suivants
+            semestreSelect.innerHTML = '<option value="">-- اختر الفصل الدراسي / Sélectionnez le semestre --</option>';
+            ueSelect.innerHTML = '<option value="">-- اختر الفصل الدراسي أولاً / Sélectionnez d\'abord le semestre --</option>';
+            ueSelect.disabled = true;
+            elementSelect.innerHTML = '<option value="">-- اختر الوحدة التعليمية أولاً / Sélectionnez d\'abord l\'UE --</option>';
+            elementSelect.disabled = true;
+            
+            if (this.value) {
+                currentNiveauAcademique = this.value;
+                semestreSelect.disabled = false;
                 
-                elementSelect.innerHTML = '<option value="">-- اختر الوحدة التعليمية أولاً / Sélectionnez d\'abord l\'UE --</option>';
-                elementSelect.disabled = true;
+                // Remplir les semestres correspondant au niveau
+                const semestres = semestresByNiveau[this.value];
+                semestres.forEach(sem => {
+                    const option = document.createElement('option');
+                    option.value = sem;
+                    option.textContent = semestreLabels[sem];
+                    semestreSelect.appendChild(option);
+                });
+            } else {
+                currentNiveauAcademique = '';
+                semestreSelect.disabled = true;
+            }
+        });
+
+        // Gérer le changement de semestre
+        document.getElementById('semestre').addEventListener('change', function() {
+            const deptValue = document.getElementById('departement').value;
+            const ueSelect = document.getElementById('ue');
+            const elementSelect = document.getElementById('element');
+            
+            elementSelect.innerHTML = '<option value="">-- اختر الوحدة التعليمية أولاً / Sélectionnez d\'abord l\'UE --</option>';
+            elementSelect.disabled = true;
+            
+            if (deptValue && this.value) {
+                currentSemestre = this.value;
+                ueSelect.disabled = false;
+                ueSelect.innerHTML = '<option value="">-- اختر الوحدة التعليمية / Sélectionnez une UE --</option>';
                 
-                if (deptValue) {
-                    ueSelect.disabled = false;
-                    ueSelect.innerHTML = '<option value="">-- اختر الوحدة التعليمية / Sélectionnez une UE --</option>';
-                    
-                    const ues = Object.keys(curriculumData[deptValue].ue);
-                    ues.forEach(ue => {
-                        const option = document.createElement('option');
-                        option.value = ue;
-                        option.textContent = ue;
-                        ueSelect.appendChild(option);
-                    });
-                }
-            });
+                // Filtrer les UE selon le niveau et semestre sélectionnés
+                const allUes = Object.keys(curriculumData[deptValue].ue);
+                const filteredUes = allUes.filter(ue => {
+                    const { niveau, semestre } = extractNiveauAndSemestre(ue);
+                    return niveau === currentNiveauAcademique && semestre === currentSemestre;
+                });
+                
+                filteredUes.forEach(ue => {
+                    const option = document.createElement('option');
+                    option.value = ue;
+                    option.textContent = ue;
+                    ueSelect.appendChild(option);
+                });
+            } else {
+                currentSemestre = '';
+                ueSelect.disabled = true;
+            }
         });
 
         // Gérer le changement d'UE
@@ -792,6 +888,7 @@
             const elementSelect = document.getElementById('element');
             
             if (deptValue && this.value) {
+                // Remplir les EC
                 elementSelect.disabled = false;
                 elementSelect.innerHTML = '<option value="">-- اختر المادة / Sélectionnez un EC --</option>';
                 
@@ -821,7 +918,9 @@
                 timestamp: new Date().toISOString(),
                 annee_academique: "2025-2026",
                 departement: document.getElementById('departement').value,
-                niveau: document.querySelector('input[name="niveau"]:checked').value,
+                niveau: document.getElementById('niveau_academique').value.startsWith('L') ? 'Licence' : 'Master',
+                niveau_academique: document.getElementById('niveau_academique').value,
+                semestre: document.getElementById('semestre').value,
                 ue: document.getElementById('ue').value,
                 element_constitutif: document.getElementById('element').value,
                 plan_cours: document.querySelector('input[name="plan_cours"]:checked').value,
@@ -865,8 +964,15 @@
 
         function resetForm() {
             document.getElementById('evaluationForm').reset();
+            document.getElementById('niveau_academique').value = '';
+            document.getElementById('semestre').disabled = true;
+            document.getElementById('semestre').innerHTML = '<option value="">-- اختر المستوى الأكاديمي أولاً / Sélectionnez d\'abord le niveau --</option>';
             document.getElementById('ue').disabled = true;
+            document.getElementById('ue').innerHTML = '<option value="">-- اختر الفصل الدراسي أولاً / Sélectionnez d\'abord le semestre --</option>';
             document.getElementById('element').disabled = true;
+            document.getElementById('element').innerHTML = '<option value="">-- اختر الوحدة التعليمية أولاً / Sélectionnez d\'abord l\'UE --</option>';
+            currentNiveauAcademique = '';
+            currentSemestre = '';
         }
     </script>
 </body>
