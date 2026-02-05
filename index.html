@@ -179,6 +179,88 @@
             margin-top: 0.5rem;
         }
 
+        .success-badge {
+            display: inline-block;
+            background: #E8F5E9;
+            color: #2E7D32;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .warning-badge {
+            display: inline-block;
+            background: #FFF3E0;
+            color: #F57C00;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .error-badge {
+            display: inline-block;
+            background: #FFEBEE;
+            color: #C62828;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .code-display {
+            background: #E8F5E9;
+            border: 2px solid #4CAF50;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .code-display-text {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: #2E7D32;
+            font-size: 1.1rem;
+        }
+
+        .code-display-value {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: #1B5E20;
+            font-size: 1.2rem;
+            background: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+        }
+
+        .btn-change-code {
+            font-family: 'Montserrat', sans-serif;
+            padding: 0.5rem 1rem;
+            border: 2px solid #F57C00;
+            background: white;
+            color: #F57C00;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-change-code:hover {
+            background: #F57C00;
+            color: white;
+        }
+
         .radio-group, .checkbox-group {
             display: flex;
             flex-direction: column;
@@ -284,6 +366,18 @@
             font-size: 1.2rem;
         }
 
+        .error-message {
+            background: #FFEBEE;
+            color: #C62828;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            font-family: 'Amiri', serif;
+            font-weight: 700;
+            border: 2px solid #EF5350;
+            font-size: 1.2rem;
+        }
+
         .loading {
             display: inline-block;
             width: 20px;
@@ -313,6 +407,11 @@
                 margin-top: 0.5rem;
                 width: 100%;
             }
+            
+            .code-display {
+                flex-direction: column;
+                gap: 1rem;
+            }
         }
     </style>
 </head>
@@ -327,7 +426,45 @@
     </div>
 
     <div class="container">
-        <form id="evaluationForm">
+        <!-- Section d'authentification du code permanent -->
+        <div id="codeSection" class="card">
+            <h2 class="section-title">التعريف الشخصي</h2>
+            <div class="section-title-fr">Identification</div>
+            
+            <div class="form-group">
+                <label>الرمز الدائم للطالب <span class="required">*</span></label>
+                <div class="label-fr">Code Permanent de l'Étudiant</div>
+                <input type="text" id="code_permanent_input" placeholder="أدخل الرمز الدائم / Entrez votre code permanent">
+                <div class="info-badge">
+                    ℹ️ سيتم استخدام هذا الرمز لجميع تقييماتك<br>
+                    Ce code sera utilisé pour toutes vos évaluations
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 2rem;">
+                <button type="button" class="btn btn-primary" id="validateCodeBtn">
+                    تأكيد الرمز / Valider le Code
+                </button>
+            </div>
+        </div>
+
+        <!-- Formulaire d'évaluation (caché jusqu'à validation du code) -->
+        <form id="evaluationForm" class="hidden">
+            <!-- Affichage du code permanent validé -->
+            <div class="code-display">
+                <div>
+                    <div class="code-display-text">
+                        الرمز الدائم المستخدم / Code Permanent Utilisé
+                    </div>
+                </div>
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                    <div class="code-display-value" id="codeDisplayValue"></div>
+                    <button type="button" class="btn-change-code" onclick="changeCode()">
+                        تغيير / Changer
+                    </button>
+                </div>
+            </div>
+
             <!-- Section 1: Informations Générales -->
             <div class="card">
                 <h2 class="section-title">البيانات العامة</h2>
@@ -678,7 +815,7 @@
                 <button type="submit" class="btn btn-primary" id="submitBtn">
                      إرسال الأجوبة / Soumettre
                 </button>
-                <button type="button" class="btn btn-secondary" onclick="resetForm()">إعادة ضبط / Réinitialiser</button>
+                <button type="button" class="btn btn-secondary" onclick="resetEvaluationForm()">إعادة ضبط / Réinitialiser</button>
             </div>
         </form>
 
@@ -686,6 +823,16 @@
             <div class="success-message">
                 ✓ تم تسجيل تقييمك بنجاح! <br>
                 Votre évaluation a été enregistrée avec succès !
+                <div style="margin-top: 1rem;">
+                    <button type="button" class="btn btn-primary" onclick="evaluateAnother()">
+                        تقييم مادة أخرى / Évaluer une autre matière
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="errorMessage" class="card hidden">
+            <div class="error-message" id="errorText">
             </div>
         </div>
     </div>
@@ -694,16 +841,16 @@
         // CONFIGURATION
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxnIv1GFpEqVpo3t1pB3vHnNTThQsVBp4TT-Lmro3DFBHc4dnrqfuNCxic8NyGvm0pK/exec';
         
+        // Variable globale pour stocker le code permanent
+        let validatedCodePermanent = '';
+        
         // Fonction pour extraire le niveau et le semestre depuis le code UE
         function extractNiveauAndSemestre(ueCode) {
-            // Format: "لغة 111" ou "دراسات 241"
-            // Les deux premiers chiffres déterminent niveau et semestre
             const match = ueCode.match(/(\d)(\d)\d/);
             if (match) {
-                const firstDigit = match[1];  // 1, 2, ou 3
-                const secondDigit = match[2]; // 1, 2, 3, 4, 5, ou 6
+                const firstDigit = match[1];
+                const secondDigit = match[2];
                 
-                // Mapping des codes vers niveau et semestre
                 const mapping = {
                     '11': { niveau: 'L1', semestre: 'S1' },
                     '12': { niveau: 'L1', semestre: 'S2' },
@@ -771,11 +918,9 @@
             }
         };
 
-        // Variables globales pour stocker niveau et semestre
         let currentNiveauAcademique = '';
         let currentSemestre = '';
 
-        // Mapping des semestres avec labels arabes
         const semestreLabels = {
             'S1': 'الفصل الأول / Semestre 1',
             'S2': 'الفصل الثاني / Semestre 2',
@@ -785,7 +930,6 @@
             'S6': 'الفصل السادس / Semestre 6'
         };
 
-        // Mapping des semestres par niveau
         const semestresByNiveau = {
             'L1': ['S1', 'S2'],
             'L2': ['S3', 'S4'],
@@ -801,6 +945,42 @@
             departementSelect.appendChild(option);
         });
 
+        // Validation du code permanent
+        document.getElementById('validateCodeBtn').addEventListener('click', function() {
+            const codeInput = document.getElementById('code_permanent_input');
+            const code = codeInput.value.trim();
+            
+            if (!code) {
+                alert('الرجاء إدخال الرمز الدائم\nVeuillez entrer votre code permanent');
+                return;
+            }
+            
+            // Stocker le code validé
+            validatedCodePermanent = code;
+            
+            // Afficher le code dans le formulaire
+            document.getElementById('codeDisplayValue').textContent = code;
+            
+            // Cacher la section du code et afficher le formulaire
+            document.getElementById('codeSection').classList.add('hidden');
+            document.getElementById('evaluationForm').classList.remove('hidden');
+            
+            // Scroll vers le haut
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Fonction pour changer le code
+        function changeCode() {
+            if (confirm('هل أنت متأكد أنك تريد تغيير الرمز الدائم؟\nÊtes-vous sûr de vouloir changer le code permanent?')) {
+                validatedCodePermanent = '';
+                document.getElementById('code_permanent_input').value = '';
+                document.getElementById('evaluationForm').classList.add('hidden');
+                document.getElementById('codeSection').classList.remove('hidden');
+                resetEvaluationForm();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
         // Gérer le changement de département
         departementSelect.addEventListener('change', function() {
             const niveauSelect = document.getElementById('niveau_academique');
@@ -808,7 +988,6 @@
             const ueSelect = document.getElementById('ue');
             const elementSelect = document.getElementById('element');
             
-            // Réinitialiser tous les selects suivants
             niveauSelect.value = '';
             semestreSelect.innerHTML = '<option value="">-- اختر المستوى الأكاديمي أولاً / Sélectionnez d\'abord le niveau --</option>';
             semestreSelect.disabled = true;
@@ -824,7 +1003,6 @@
             const ueSelect = document.getElementById('ue');
             const elementSelect = document.getElementById('element');
             
-            // Réinitialiser les selects suivants
             semestreSelect.innerHTML = '<option value="">-- اختر الفصل الدراسي / Sélectionnez le semestre --</option>';
             ueSelect.innerHTML = '<option value="">-- اختر الفصل الدراسي أولاً / Sélectionnez d\'abord le semestre --</option>';
             ueSelect.disabled = true;
@@ -835,7 +1013,6 @@
                 currentNiveauAcademique = this.value;
                 semestreSelect.disabled = false;
                 
-                // Remplir les semestres correspondant au niveau
                 const semestres = semestresByNiveau[this.value];
                 semestres.forEach(sem => {
                     const option = document.createElement('option');
@@ -863,7 +1040,6 @@
                 ueSelect.disabled = false;
                 ueSelect.innerHTML = '<option value="">-- اختر الوحدة التعليمية / Sélectionnez une UE --</option>';
                 
-                // Filtrer les UE selon le niveau et semestre sélectionnés
                 const allUes = Object.keys(curriculumData[deptValue].ue);
                 const filteredUes = allUes.filter(ue => {
                     const { niveau, semestre } = extractNiveauAndSemestre(ue);
@@ -888,7 +1064,6 @@
             const elementSelect = document.getElementById('element');
             
             if (deptValue && this.value) {
-                // Remplir les EC
                 elementSelect.disabled = false;
                 elementSelect.innerHTML = '<option value="">-- اختر المادة / Sélectionnez un EC --</option>';
                 
@@ -905,6 +1080,23 @@
             }
         });
 
+        // Fonction pour afficher une erreur
+        function showError(messageAr, messageFr) {
+            const errorMessage = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+            
+            errorText.innerHTML = `❌ ${messageAr}<br>${messageFr}`;
+            
+            document.getElementById('evaluationForm').classList.add('hidden');
+            errorMessage.classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            setTimeout(() => {
+                document.getElementById('evaluationForm').classList.remove('hidden');
+                errorMessage.classList.add('hidden');
+            }, 5000);
+        }
+
         // Gérer la soumission
         document.getElementById('evaluationForm').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -914,7 +1106,11 @@
             submitBtn.disabled = true;
             submitBtn.innerHTML = 'جاري الإرسال... <span class="loading"></span>';
             
+            const elementConstitutif = document.getElementById('element').value;
+            
             const formObject = {
+                check_duplicate: true,
+                code_permanent: validatedCodePermanent,
                 timestamp: new Date().toISOString(),
                 annee_academique: "2025-2026",
                 departement: document.getElementById('departement').value,
@@ -922,7 +1118,7 @@
                 niveau_academique: document.getElementById('niveau_academique').value,
                 semestre: document.getElementById('semestre').value,
                 ue: document.getElementById('ue').value,
-                element_constitutif: document.getElementById('element').value,
+                element_constitutif: elementConstitutif,
                 plan_cours: document.querySelector('input[name="plan_cours"]:checked').value,
                 documentation: Array.from(document.querySelectorAll('input[name="documentation"]:checked')).map(cb => cb.value).join(', '),
                 respect_plan: document.querySelector('input[name="respect_plan"]:checked').value,
@@ -946,24 +1142,36 @@
                 document.getElementById('successMessage').classList.remove('hidden');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 
-                setTimeout(() => {
-                    document.getElementById('evaluationForm').classList.remove('hidden');
-                    document.getElementById('successMessage').classList.add('hidden');
-                    resetForm();
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = originalBtnText;
-                }, 3000);
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
                 
             } catch (error) {
                 console.error('خطأ:', error);
-                alert('حدث خطأ أثناء الإرسال. يرجى المحاولة مرة أخرى.\nUne erreur est survenue. Veuillez réessayer.');
+                showError(
+                    'حدث خطأ أثناء الإرسال. يرجى المحاولة مرة أخرى',
+                    'Une erreur est survenue. Veuillez réessayer'
+                );
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalBtnText;
             }
         });
 
-        function resetForm() {
-            document.getElementById('evaluationForm').reset();
+        // Fonction pour évaluer une autre matière
+        function evaluateAnother() {
+            document.getElementById('successMessage').classList.add('hidden');
+            document.getElementById('evaluationForm').classList.remove('hidden');
+            resetEvaluationForm();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Fonction pour réinitialiser le formulaire d'évaluation
+        function resetEvaluationForm() {
+            // Réinitialiser le formulaire mais garder le code permanent
+            const form = document.getElementById('evaluationForm');
+            const inputs = form.querySelectorAll('input[type="radio"], input[type="checkbox"]');
+            inputs.forEach(input => input.checked = false);
+            
+            document.getElementById('departement').value = '';
             document.getElementById('niveau_academique').value = '';
             document.getElementById('semestre').disabled = true;
             document.getElementById('semestre').innerHTML = '<option value="">-- اختر المستوى الأكاديمي أولاً / Sélectionnez d\'abord le niveau --</option>';
