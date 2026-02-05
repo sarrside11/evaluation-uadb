@@ -14,7 +14,7 @@
             --bg: #F8F6F2;
             --card: #FFFFFF;
             --border: #E0DED8;
-        }
+        } 
 
         * {
             margin: 0;
@@ -440,7 +440,7 @@
             <div class="form-group">
                 <label>رقم التعريف<span class="required">*</span></label>
                 <div class="label-fr">Identifiant de l'Étudiant</div>
-                <input type="text" id="code_permanent_input" placeholder="أدخل الرمز الدائم / Entrez votre code permanent">
+                <input type="text" id="code_permanent_input" placeholder="أدخل رقم التعريف  / Entrez votre identifiant">
                 <div class="info-badge">
                     ℹ️ سبتم استخدام هذا الرقم لجميع تقييماتك <br>
                     Cet identifiant sera utilisé pour toutes vos évaluations
@@ -957,7 +957,7 @@
             const code = codeInput.value.trim();
             
             if (!code) {
-                alert('الرجاء إدخال الرمز الدائم\nVeuillez entrer votre code permanent');
+                alert('أدخل رقم التعريف   \nVeuillez entrer votre identifiant');
                 return;
             }
             
