@@ -4,679 +4,556 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>استمارة تقييم الدروس - Évaluation des Enseignements 2025-2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 <style>
-    :root {
-        --primary: #00365f;
-        --secondary: #00365f;
-        --accent: #E8704B;
-        --text: #1A1A1A;
-        --bg: #F8F6F2;
-        --card: #FFFFFF;
-        --border: #E0DED8;
-    }
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body {
-        font-family: 'Amiri', serif;
-        background: var(--bg);
-        color: var(--text);
-        line-height: 1.8;
-        min-height: 100vh;
-    }
-    .header {
-        background: linear-gradient(135deg, var(--primary) 0%, #084428 100%);
-        color: white; padding: 3rem 2rem; text-align: center; position: relative; overflow: hidden;
-    }
-    .header::before {
-        content: ''; position: absolute; inset: 0;
-        background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><pattern id="p" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="white" opacity="0.1"/></pattern><rect width="100" height="100" fill="url(%23p)"/></svg>');
-        opacity: 0.3;
-    }
-    .header-content { position: relative; z-index:1; }
-    .university-name { font-family:'Amiri', serif; font-size:2.2rem; font-weight:700; margin-bottom:0.5rem; letter-spacing:1px; }
-    .university-name-fr { font-family:'Montserrat', sans-serif; font-size:1.3rem; margin-top:0.5rem; opacity:0.95; }
-    .header-subtitle { font-size:1.2rem; opacity:0.95; font-weight:400; margin-top:0.5rem; }
-    .year-badge {
-        display:inline-block; background:var(--secondary); color:white; padding:0.5rem 1.5rem;
-        border-radius:50px; font-family:'Montserrat', sans-serif; font-weight:600; margin-top:1rem; font-size:1rem;
-    }
-    .container { max-width: 900px; margin: -2rem auto 3rem; padding: 0 1.5rem; position: relative; z-index: 2; }
-    .card {
-        background: var(--card); border-radius: 16px; padding: 2.5rem; margin-bottom: 2rem;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.05), 0 10px 30px rgba(0,0,0,0.08); border: 1px solid var(--border);
-    }
-    .section-title { font-family:'Amiri', serif; font-size:1.7rem; color:var(--primary); margin-bottom:0.5rem; padding-bottom:0.75rem; border-bottom:3px solid var(--secondary); font-weight:700; }
-    .section-title-fr { font-family:'Montserrat', sans-serif; font-size:1.1rem; color:#666; margin-bottom:1.5rem; font-weight:600; }
-    .form-group { margin-bottom:1.75rem; }
-    label { display:block; font-family:'Amiri', serif; font-weight:700; margin-bottom:0.5rem; color:var(--text); font-size:1.1rem; }
-    .label-fr { font-family:'Montserrat', sans-serif; font-size:0.9rem; color:#666; font-weight:500; margin-bottom:0.75rem; }
-    .required { color: var(--accent); }
-    select, input[type="text"] {
-        width:100%; padding:0.875rem 1rem; border:2px solid var(--border); border-radius:8px; font-size:1.05rem; font-family:'Amiri', serif; transition:all .3s ease; background:white; direction:rtl;
-    }
-    select:focus, input[type="text"]:focus { outline:none; border-color:var(--primary); box-shadow:0 0 0 3px rgba(10,92,54,.1); }
-    .radio-group, .checkbox-group { display:flex; flex-direction:column; gap:0.75rem; }
-    .radio-option, .checkbox-option {
-        display:flex; align-items:center; padding:0.875rem 1rem; border:2px solid var(--border); border-radius:8px; cursor:pointer; transition:all .3s ease; background:white; direction:rtl;
-    }
-    .radio-option:hover, .checkbox-option:hover { border-color:var(--primary); background:rgba(10,92,54,0.02); }
-    .radio-option input[type="radio"], .checkbox-option input[type="checkbox"] {
-        margin-left:0.75rem; margin-right:0; width:20px; height:20px; cursor:pointer; accent-color:var(--primary);
-    }
-    .radio-option label, .checkbox-option label { margin:0; cursor:pointer; flex:1; font-family:'Amiri', serif; font-weight:400; font-size:1rem; }
-    .option-text-fr { display:block; font-family:'Montserrat', sans-serif; font-size:0.85rem; color:#888; margin-top:0.25rem; }
-    .btn { font-family:'Montserrat', sans-serif; padding:1rem 2rem; border:none; border-radius:8px; font-size:1rem; font-weight:600; cursor:pointer; transition:all .3s ease; }
-    .btn-primary { background:var(--primary); color:white; box-shadow:0 4px 12px rgba(10,92,54,0.3); }
-    .btn-primary:hover:not(:disabled) { background:#084428; transform:translateY(-2px); box-shadow:0 6px 20px rgba(10,92,54,0.4); }
-    .btn-primary:disabled { opacity:0.6; cursor:not-allowed; }
-    .btn-secondary { background:#6c757d; color:white; margin-right:1rem; }
-    .btn-secondary:hover { background:#5a6268; }
-    .hidden { display:none; }
-    .success-message {
-        background:#E8F5E9; color:#2E7D32; padding:1.5rem; border-radius:8px; text-align:center; font-family:'Amiri', serif; font-weight:700; border:2px solid #4CAF50; font-size:1.2rem;
-    }
-    .loading { display:inline-block; width:20px; height:20px; border:3px solid rgba(255,255,255,.3); border-radius:50%; border-top-color:white; animation:spin 1s ease-in-out infinite; margin-right:10px; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    @media (max-width:768px) {
-        .university-name { font-size:1.7rem; }
-        .card { padding:1.5rem; }
-        .btn-secondary { margin-right:0; margin-top:0.5rem; width:100%; }
-    }
+/* … (styles exactement comme ta version ; j’ai gardé l’ensemble) … */
+:root { --primary:#00365f; --secondary:#00365f; --accent:#E8704B; --text:#1A1A1A; --bg:#F8F6F2; --card:#FFFFFF; --border:#E0DED8; }
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Amiri',serif;background:var(--bg);color:var(--text);line-height:1.8;min-height:100vh}
+.header{background:linear-gradient(135deg,var(--primary) 0%,#084428 100%);color:white;padding:3rem 2rem;text-align:center;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;inset:0;background:url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><pattern id="p" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="white" opacity="0.1"/></pattern><rect width="100" height="100" fill="url(%23p)"/></svg>');opacity:.3}
+.header-content{position:relative;z-index:1}
+.university-name{font-family:'Amiri',serif;font-size:2.2rem;font-weight:700;margin-bottom:.5rem;letter-spacing:1px}
+.university-name-fr{font-family:'Montserrat',sans-serif;font-size:1.3rem;margin-top:.5rem;opacity:.95}
+.header-subtitle{font-size:1.2rem;opacity:.95;font-weight:400;margin-top:.5rem}
+.year-badge{display:inline-block;background:var(--secondary);color:white;padding:.5rem 1.5rem;border-radius:50px;font-family:'Montserrat',sans-serif;font-weight:600;margin-top:1rem;font-size:1rem}
+.container{max-width:900px;margin:-2rem auto 3rem;padding:0 1.5rem;position:relative;z-index:2}
+.card{background:var(--card);border-radius:16px;padding:2.5rem;margin-bottom:2rem;box-shadow:0 4px 6px rgba(0,0,0,.05),0 10px 30px rgba(0,0,0,.08);border:1px solid var(--border)}
+.section-title{font-family:'Amiri',serif;font-size:1.7rem;color:var(--primary);margin-bottom:.5rem;padding-bottom:.75rem;border-bottom:3px solid var(--secondary);font-weight:700}
+.section-title-fr{font-family:'Montserrat',sans-serif;font-size:1.1rem;color:#666;margin-bottom:1.5rem;font-weight:600}
+.form-group{margin-bottom:1.75rem}
+label{display:block;font-family:'Amiri',serif;font-weight:700;margin-bottom:.5rem;color:var(--text);font-size:1.1rem}
+.label-fr{font-family:'Montserrat',sans-serif;font-size:.9rem;color:#666;font-weight:500;margin-bottom:.75rem}
+.required{color:var(--accent)}
+select,input[type="text"]{width:100%;padding:.875rem 1rem;border:2px solid var(--border);border-radius:8px;font-size:1.05rem;font-family:'Amiri',serif;transition:all .3s ease;background:white;direction:rtl}
+select:focus,input[type="text"]:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(10,92,54,.1)}
+.radio-group,.checkbox-group{display:flex;flex-direction:column;gap:.75rem}
+.radio-option,.checkbox-option{display:flex;align-items:center;padding:.875rem 1rem;border:2px solid var(--border);border-radius:8px;cursor:pointer;transition:all .3s ease;background:white;direction:rtl}
+.radio-option:hover,.checkbox-option:hover{border-color:var(--primary);background:rgba(10,92,54,.02)}
+.radio-option input[type="radio"],.checkbox-option input[type="checkbox"]{margin-left:.75rem;margin-right:0;width:20px;height:20px;cursor:pointer;accent-color:var(--primary)}
+.radio-option label,.checkbox-option label{margin:0;cursor:pointer;flex:1;font-family:'Amiri',serif;font-weight:400;font-size:1rem}
+.option-text-fr{display:block;font-family:'Montserrat',sans-serif;font-size:.85rem;color:#888;margin-top:.25rem}
+.btn{font-family:'Montserrat',sans-serif;padding:1rem 2rem;border:none;border-radius:8px;font-size:1rem;font-weight:600;cursor:pointer;transition:all .3s ease}
+.btn-primary{background:var(--primary);color:white;box-shadow:0 4px 12px rgba(10,92,54,.3)}
+.btn-primary:hover:not(:disabled){background:#084428;transform:translateY(-2px);box-shadow:0 6px 20px rgba(10,92,54,.4)}
+.btn-primary:disabled{opacity:.6;cursor:not-allowed}
+.btn-secondary{background:#6c757d;color:white;margin-right:1rem}
+.btn-secondary:hover{background:#5a6268}
+.hidden{display:none}
+.success-message{background:#E8F5E9;color:#2E7D32;padding:1.5rem;border-radius:8px;text-align:center;font-family:'Amiri',serif;font-weight:700;border:2px solid #4CAF50;font-size:1.2rem}
+.loading{display:inline-block;width:20px;height:20px;border:3px solid rgba(255,255,255,.3);border-radius:50%;border-top-color:white;animation:spin 1s ease-in-out infinite;margin-right:10px}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (max-width:768px){.university-name{font-size:1.7rem}.card{padding:1.5rem}.btn-secondary{margin-right:0;margin-top:.5rem;width:100%}}
 </style>
 </head>
 <body>
-    <div class="header">
-        <div class="header-content">
-            <div class="university-name">جامعة الشيخ أحمد الخديم</div>
-            <div class="university-name-fr">Université Cheikh Ahmadoul Khadim</div>
-            <div class="header-subtitle">كلية الدراسات الإسلامية والعربية - UFR Études Islamiques et Arabes</div>
-            <div class="year-badge">السنة الجامعية / Année 2025-2026</div>
-        </div>
+  <div class="header">
+    <div class="header-content">
+      <div class="university-name">جامعة الشيخ أحمد الخديم</div>
+      <div class="university-name-fr">Université Cheikh Ahmadoul Khadim</div>
+      <div class="header-subtitle">كلية الدراسات الإسلامية والعربية - UFR Études Islamiques et Arabes</div>
+      <div class="year-badge">السنة الجامعية / Année 2025-2026</div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Portail Auth -->
+    <div id="authGate" class="card">
+      <h2 class="section-title">التحقق من الهوية</h2>
+      <div class="section-title-fr">Vérification d'identité</div>
+      <div class="form-group">
+        <label>الرقم الدائم للطالب <span class="required">*</span></label>
+        <div class="label-fr">Code Permanent</div>
+        <input type="text" id="codePermanentInput" placeholder="مثال: ETUD001" required />
+      </div>
+      <button class="btn btn-primary" id="authBtn">دخول / Continuer</button>
+      <div id="authError" class="info-badge" style="display:none;background:#fdecea;color:#b00020;padding:.5rem 1rem;border-radius:6px;margin-top:.75rem;">
+        Code invalide. يرجى المحاولة مرة أخرى.
+      </div>
     </div>
 
-    <div class="container">
-        <!-- Portail d'authentification par Code Permanent -->
-        <div id="authGate" class="card">
-            <h2 class="section-title">التحقق من الهوية</h2>
-            <div class="section-title-fr">Vérification d'identité</div>
-            <div class="form-group">
-                <label>الرقم الدائم للطالب <span class="required">*</span></label>
-                <div class="label-fr">Code Permanent</div>
-                <input type="text" id="codePermanentInput" placeholder="مثال: ETUD001" required />
-            </div>
-            <button class="btn btn-primary" id="authBtn">دخول / Continuer</button>
-            <div id="authError" class="info-badge" style="display:none; background:#fdecea; color:#b00020; padding:0.5rem 1rem; border-radius:6px; margin-top:0.75rem;">
-                Code invalide. يرجى المحاولة مرة أخرى.
-            </div>
+    <!-- Formulaire (masqué avant auth) -->
+    <form id="evaluationForm" class="hidden">
+      <!-- ====== Section 1: Infos Générales ====== -->
+      <div class="card">
+        <h2 class="section-title">البيانات العامة</h2>
+        <div class="section-title-fr">Informations Générales</div>
+
+        <div class="form-group">
+          <label>القسم <span class="required">*</span></label>
+          <div class="label-fr">Département</div>
+          <select id="departement" required>
+            <option value="">-- اختر القسم / Sélectionnez le département --</option>
+          </select>
         </div>
 
-        <!-- FORMULAIRE (caché tant que l'auth n'est pas validée) -->
-        <form id="evaluationForm" class="hidden">
-            <!-- Section 1: Informations Générales -->
-            <div class="card">
-                <h2 class="section-title">البيانات العامة</h2>
-                <div class="section-title-fr">Informations Générales</div>
-
-                <div class="form-group">
-                    <label>القسم <span class="required">*</span></label>
-                    <div class="label-fr">Département</div>
-                    <select id="departement" required>
-                        <option value="">-- اختر القسم / Sélectionnez le département --</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>المستوى الأكاديمي <span class="required">*</span></label>
-                    <div class="label-fr">Niveau Académique</div>
-                    <select id="niveau_academique" required>
-                        <option value="">-- اختر المستوى الأكاديمي / Sélectionnez le niveau --</option>
-                        <option value="L1">L1 - السنة الأولى / Première année</option>
-                        <option value="L2">L2 - السنة الثانية / Deuxième année</option>
-                        <option value="L3">L3 - السنة الثالثة / Troisième année</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>الفصل الدراسي <span class="required">*</span></label>
-                    <div class="label-fr">Semestre</div>
-                    <select id="semestre" required disabled>
-                        <option value="">-- اختر المستوى الأكاديمي أولاً / Sélectionnez d'abord le niveau --</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>الوحدة التعليمية <span class="required">*</span></label>
-                    <div class="label-fr">Unité d'Enseignement</div>
-                    <select id="ue" required disabled>
-                        <option value="">-- اختر الفصل الدراسي أولاً / Sélectionnez d'abord le semestre --</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>المادة <span class="required">*</span></label>
-                    <div class="label-fr">Élément Constitutif (Matière)</div>
-                    <select id="element" required disabled>
-                        <option value="">-- اختر الوحدة التعليمية أولاً / Sélectionnez d'abord l'UE --</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Section 2: خطة البرنامج والوثائق -->
-            <div class="card">
-                <h2 class="section-title">خطة البرنامج والوثائق</h2>
-                <div class="section-title-fr">Plan de Cours et Documentation</div>
-
-                <div class="form-group">
-                    <label>هل تم عرض خطة البرنامج المقرر قبل بداية الدروس؟ <span class="required">*</span></label>
-                    <div class="label-fr">Le plan de cours est-il exposé avant le démarrage?</div>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="plan_oui" name="plan_cours" value="نعم" required>
-                            <label for="plan_oui">نعم <span class="option-text-fr">Oui</span></label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="plan_non" name="plan_cours" value="لا">
-                            <label for="plan_non">لا <span class="option-text-fr">Non</span></label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>الوثائق المتوفرة في أيدي الطلاب</label>
-                    <div class="label-fr">Documentation proposée</div>
-                    <div class="checkbox-group">
-                        <div class="checkbox-option">
-                            <input type="checkbox" id="doc_livres" name="documentation" value="كتب">
-                            <label for="doc_livres">كتب <span class="option-text-fr">Livres</span></label>
-                        </div>
-                        <div class="checkbox-option">
-                            <input type="checkbox" id="doc_fascicules" name="documentation" value="مذكرات">
-                            <label for="doc_fascicules">مذكرات <span class="option-text-fr">Fascicules</span></label>
-                        </div>
-                        <div class="checkbox-option">
-                            <input type="checkbox" id="doc_electroniques" name="documentation" value="وسائل إلكترونية">
-                            <label for="doc_electroniques">وسائل إلكترونية <span class="option-text-fr">Supports électroniques</span></label>
-                        </div>
-                        <div class="checkbox-option">
-                            <input type="checkbox" id="doc_aucun" name="documentation" value="لا توجد">
-                            <label for="doc_aucun">لا توجد <span class="option-text-fr">Aucun</span></label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>هل يلتزم الأستاذ بخطة البرنامج المقرر؟ <span class="required">*</span></label>
-                    <div class="label-fr">Les données consignées dans le plan de cours ont-elles été respectées?</div>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="respect_oui" name="respect_plan" value="نعم" required>
-                            <label for="respect_oui">نعم <span class="option-text-fr">Oui</span></label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="respect_partie" name="respect_plan" value="جزئيًا">
-                            <label for="respect_partie">جزئيًا <span class="option-text-fr">En partie</span></label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="respect_non" name="respect_plan" value="لا">
-                            <label for="respect_non">لا <span class="option-text-fr">Non</span></label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Section 3: التنظيم التربوي -->
-            <div class="card">
-                <h2 class="section-title">التنظيم التربوي</h2>
-                <div class="section-title-fr">Organisation Pédagogique</div>
-
-                <div class="form-group">
-                    <label>العلاقة بين دروس المحاضرات، والأعمال التوجيهية والتطبيقية <span class="required">*</span></label>
-                    <div class="label-fr">Quel est le rapport entre le cours magistral, les TD et/ou TP?</div>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="rapport_faible" name="rapport_cours" value="ضعيفة" required>
-                            <label for="rapport_faible">ضعيفة <span class="option-text-fr">Faible</span></label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="rapport_moyen" name="rapport_cours" value="متوسطة">
-                            <label for="rapport_moyen">متوسطة <span class="option-text-fr">Moyen</span></label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="rapport_bon" name="rapport_cours" value="ممتازة">
-                            <label for="rapport_bon">ممتازة <span class="option-text-fr">Excellent</span></label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>ما رأيك في العلاقة بين هذه المادة والمواد الأخرى في الوحدة التعليمية؟ <span class="required">*</span></label>
-                    <div class="label-fr">Comment jugez-vous le lien de ce module avec les autres EC de l'UE?</div>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="lien_ec_sans" name="lien_ec" value="ضعيفة" required>
-                            <label for="lien_ec_sans">ضعيفة <span class="option-text-fr">Faible</span></label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="lien_ec_peu" name="lien_ec" value="متوسطة">
-                            <label for="lien_ec_peu">متوسطة <span class="option-text-fr">Moyen</span></label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="lien_ec_tres" name="lien_ec" value="ممتازة">
-                            <label for="lien_ec_tres">ممتازة <span class="option-text-fr">Excellent</span></label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>ما رأيك في العلاقة بين هذه الوحدة والوحدات التعليمية الأخرى في القسم؟ <span class="required">*</span></label>
-                    <div class="label-fr">Comment jugez-vous le lien de cette UE avec les autres UE?</div>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="lien_ue_sans" name="lien_ue" value="ضعيفة" required>
-                            <label for="lien_ue_sans">ضعيفة <span class="option-text-fr">Faible</span></label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="lien_ue_peu" name="lien_ue" value="متوسطة">
-                            <label for="lien_ue_peu">متوسطة <span class="option-text-fr">Moyen</span></label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="lien_ue_tres" name="lien_ue" value="ممتازة">
-                            <label for="lien_ue_tres">ممتازة <span class="option-text-fr">Excellent</span></label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Section 4: جودة التدريس -->
-            <div class="card">
-                <h2 class="section-title">جودة التدريس</h2>
-                <div class="section-title-fr">Qualité de l'Enseignement</div>
-
-                <div class="form-group">
-                    <label>وضوح الشرح <span class="required">*</span></label>
-                    <div class="label-fr">Clarté de l'exposé</div>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="clarte_expose_pas" name="clarte_expose" value="ليس مُرضِيا على الإطلاق" required>
-                            <label for="clarte_expose_pas">ليس مُرضِيا على الإطلاق <span class="option-text-fr">Pas satisfaisant</span></label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="clarte_expose_peu" name="clarte_expose" value="متوسط">
-                            <label for="clarte_expose_peu">متوسط <span class="option-text-fr">Peu satisfaisant</span></label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="clarte_expose_sat" name="clarte_expose" value="مُرضٍ">
-                            <label for="clarte_expose_sat">مُرضٍ <span class="option-text-fr">Satisfaisant</span></label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="clarte_expose_tres" name="clarte_expose" value="مُرضٍ جدًا">
-                            <label for="clarte_expose_tres">مُرضٍ جدًا <span class="option-text-fr">Très satisfaisant</span></label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>وضوح الإجابة عن أسئلة الطلاب <span class="required">*</span></label>
-                    <div class="label-fr">Clarté des réponses aux questions posées</div>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="clarte_reponses_pas" name="clarte_reponses" value="ليس مُرضِيا على الإطلاق" required>
-                            <label for="clarte_reponses_pas">ليس مُرضِيا على الإطلاق <span class="option-text-fr">Pas satisfaisant</span></label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="clarte_reponses_peu" name="clarte_reponses" value="متوسط">
-                            <label for="clarte_reponses_peu">متوسط <span class="option-text-fr">Peu satisfaisant</span></label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="clarte_reponses_sat" name="clarte_reponses" value="مُرضٍ">
-                            <label for="clarte_reponses_sat">مُرضٍ <span class="option-text-fr">Satisfaisant</span></label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="clarte_reponses_tres" name="clarte_reponses" value="مُرضٍ جدًا">
-                            <label for="clarte_reponses_tres">مُرضٍ جدًا <span class="option-text-fr">Très satisfaisant</span></label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Section 5: الرضا العام -->
-            <div class="card">
-                <h2 class="section-title">الرضا العام</h2>
-                <div class="section-title-fr">Satisfaction Globale</div>
-
-                <div class="form-group">
-                    <label>درجة رضى الطالب عن أداء الأستاذ بصفة عامة <span class="required">*</span></label>
-                    <div class="label-fr">Degré de satisfaction</div>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="satisfaction_pas" name="satisfaction" value="لست راضِيا عنه على الإطلاق" required>
-                            <label for="satisfaction_pas">لست راضِيا عنه على الإطلاق <span class="option-text-fr">Pas satisfait</span></label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="satisfaction_peu" name="satisfaction" value="راضٍ عنه رضى متوسطا">
-                            <label for="satisfaction_peu">راضٍ عنه رضى متوسطا <span class="option-text-fr">Peu satisfait</span></label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="satisfaction_sat" name="satisfaction" value="راضٍ عنه">
-                            <label for="satisfaction_sat">راضٍ عنه <span class="option-text-fr">Satisfait</span></label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="satisfaction_tres" name="satisfaction" value="راضٍ عنه جدًا">
-                            <label for="satisfaction_tres">راضٍ عنه جدًا <span class="option-text-fr">Très satisfait</span></label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div style="text-align: center;">
-                <button type="submit" class="btn btn-primary" id="submitBtn">
-                    إرسال الأجوبة / Soumettre
-                </button>
-                <button type="button" class="btn btn-secondary" onclick="resetForm()">إعادة ضبط / Réinitialiser</button>
-            </div>
-        </form>
-
-        <div id="successMessage" class="card hidden">
-            <div class="success-message">
-                ✓ تم تسجيل تقييمك بنجاح! <br>
-                Votre évaluation a été enregistrée avec succès !
-            </div>
+        <div class="form-group">
+          <label>المستوى الأكاديمي <span class="required">*</span></label>
+          <div class="label-fr">Niveau Académique</div>
+          <select id="niveau_academique" required>
+            <option value="">-- اختر المستوى الأكاديمي / Sélectionnez le niveau --</option>
+            <option value="L1">L1 - السنة الأولى / Première année</option>
+            <option value="L2">L2 - السنة الثانية / Deuxième année</option>
+            <option value="L3">L3 - السنة الثالثة / Troisième année</option>
+          </select>
         </div>
+
+        <div class="form-group">
+          <label>الفصل الدراسي <span class="required">*</span></label>
+          <div class="label-fr">Semestre</div>
+          <select id="semestre" required disabled>
+            <option value="">-- اختر المستوى الأكاديمي أولاً / Sélectionnez d'abord le niveau --</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>الوحدة التعليمية <span class="required">*</span></label>
+          <div class="label-fr">Unité d'Enseignement</div>
+          <select id="ue" required disabled>
+            <option value="">-- اختر الفصل الدراسي أولاً / Sélectionnez d'abord le semestre --</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>المادة <span class="required">*</span></label>
+          <div class="label-fr">Élément Constitutif (Matière)</div>
+          <select id="element" required disabled>
+            <option value="">-- اختر الوحدة التعليمية أولاً / Sélectionnez d'abord l'UE --</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- ====== Section 2: خطة البرنامج والوثائق ====== -->
+      <div class="card">
+        <h2 class="section-title">خطة البرنامج والوثائق</h2>
+        <div class="section-title-fr">Plan de Cours et Documentation</div>
+
+        <div class="form-group">
+          <label>هل تم عرض خطة البرنامج المقرر قبل بداية الدروس؟ <span class="required">*</span></label>
+          <div class="label-fr">Le plan de cours est-il exposé avant le démarrage?</div>
+          <div class="radio-group">
+            <div class="radio-option">
+              <input type="radio" id="plan_oui" name="plan_cours" value="نعم" required>
+              <label for="plan_oui">نعم <span class="option-text-fr">Oui</span></label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="plan_non" name="plan_cours" value="لا">
+              <label for="plan_non">لا <span class="option-text-fr">Non</span></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>الوثائق المتوفرة في أيدي الطلاب</label>
+          <div class="label-fr">Documentation proposée</div>
+          <div class="checkbox-group">
+            <div class="checkbox-option">
+              <input type="checkbox" id="doc_livres" name="documentation" value="كتب">
+              <label for="doc_livres">كتب <span class="option-text-fr">Livres</span></label>
+            </div>
+            <div class="checkbox-option">
+              <input type="checkbox" id="doc_fascicules" name="documentation" value="مذكرات">
+              <label for="doc_fascicules">مذكرات <span class="option-text-fr">Fascicules</span></label>
+            </div>
+            <div class="checkbox-option">
+              <input type="checkbox" id="doc_electroniques" name="documentation" value="وسائل إلكترونية">
+              <label for="doc_electroniques">وسائل إلكترونية <span class="option-text-fr">Supports électroniques</span></label>
+            </div>
+            <div class="checkbox-option">
+              <input type="checkbox" id="doc_aucun" name="documentation" value="لا توجد">
+              <label for="doc_aucun">لا توجد <span class="option-text-fr">Aucun</span></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>هل يلتزم الأستاذ بخطة البرنامج المقرر؟ <span class="required">*</span></label>
+          <div class="label-fr">Les données consignées dans le plan de cours ont-elles été respectées?</div>
+          <div class="radio-group">
+            <div class="radio-option">
+              <input type="radio" id="respect_oui" name="respect_plan" value="نعم" required>
+              <label for="respect_oui">نعم <span class="option-text-fr">Oui</span></label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="respect_partie" name="respect_plan" value="جزئيًا">
+              <label for="respect_partie">جزئيًا <span class="option-text-fr">En partie</span></label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="respect_non" name="respect_plan" value="لا">
+              <label for="respect_non">لا <span class="option-text-fr">Non</span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====== Section 3: التنظيم التربوي ====== -->
+      <div class="card">
+        <h2 class="section-title">التنظيم التربوي</h2>
+        <div class="section-title-fr">Organisation Pédagogique</div>
+
+        <div class="form-group">
+          <label>العلاقة بين دروس المحاضرات، والأعمال التوجيهية والتطبيقية <span class="required">*</span></label>
+          <div class="label-fr">Quel est le rapport entre le cours magistral, les TD et/ou TP?</div>
+          <div class="radio-group">
+            <div class="radio-option">
+              <input type="radio" id="rapport_faible" name="rapport_cours" value="ضعيفة" required>
+              <label for="rapport_faible">ضعيفة <span class="option-text-fr">Faible</span></label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="rapport_moyen" name="rapport_cours" value="متوسطة">
+              <label for="rapport_moyen">متوسطة <span class="option-text-fr">Moyen</span></label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="rapport_bon" name="rapport_cours" value="ممتازة">
+              <label for="rapport_bon">ممتازة <span class="option-text-fr">Excellent</span></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>ما رأيك في العلاقة بين هذه المادة والمواد الأخرى في الوحدة التعليمية؟ <span class="required">*</span></label>
+          <div class="label-fr">Lien de ce module avec les autres EC de l'UE?</div>
+          <div class="radio-group">
+            <div class="radio-option">
+              <input type="radio" id="lien_ec_sans" name="lien_ec" value="ضعيفة" required>
+              <label for="lien_ec_sans">ضعيفة <span class="option-text-fr">Faible</span></label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="lien_ec_peu" name="lien_ec" value="متوسطة">
+              <label for="lien_ec_peu">متوسطة <span class="option-text-fr">Moyen</span></label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="lien_ec_tres" name="lien_ec" value="ممتازة">
+              <label for="lien_ec_tres">ممتازة <span class="option-text-fr">Excellent</span></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>ما رأيك في العلاقة بين هذه الوحدة والوحدات التعليمية الأخرى في القسم؟ <span class="required">*</span></label>
+          <div class="label-fr">Lien de cette UE avec les autres UE?</div>
+          <div class="radio-group">
+            <div class="radio-option">
+              <input type="radio" id="lien_ue_sans" name="lien_ue" value="ضعيفة" required>
+              <label for="lien_ue_sans">ضعيفة <span class="option-text-fr">Faible</span></label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="lien_ue_peu" name="lien_ue" value="متوسطة">
+              <label for="lien_ue_peu">متوسطة <span class="option-text-fr">Moyen</span></label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="lien_ue_tres" name="lien_ue" value="ممتازة">
+              <label for="lien_ue_tres">ممتازة <span class="option-text-fr">Excellent</span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====== Section 4: جودة التدريس ====== -->
+      <div class="card">
+        <h2 class="section-title">جودة التدريس</h2>
+        <div class="section-title-fr">Qualité de l'Enseignement</div>
+
+        <div class="form-group">
+          <label>وضوح الشرح <span class="required">*</span></label>
+          <div class="label-fr">Clarté de l'exposé</div>
+          <div class="radio-group">
+            <div class="radio-option"><input type="radio" id="clarte_expose_pas" name="clarte_expose" value="ليس مُرضِيا على الإطلاق" required><label for="clarte_expose_pas">ليس مُرضِيا على الإطلاق <span class="option-text-fr">Pas satisfaisant</span></label></div>
+            <div class="radio-option"><input type="radio" id="clarte_expose_peu" name="clarte_expose" value="متوسط"><label for="clarte_expose_peu">متوسط <span class="option-text-fr">Peu satisfaisant</span></label></div>
+            <div class="radio-option"><input type="radio" id="clarte_expose_sat" name="clarte_expose" value="مُرضٍ"><label for="clarte_expose_sat">مُرضٍ <span class="option-text-fr">Satisfaisant</span></label></div>
+            <div class="radio-option"><input type="radio" id="clarte_expose_tres" name="clarte_expose" value="مُرضٍ جدًا"><label for="clarte_expose_tres">مُرضٍ جدًا <span class="option-text-fr">Très satisfaisant</span></label></div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>وضوح الإجابة عن أسئلة الطلاب <span class="required">*</span></label>
+          <div class="label-fr">Clarté des réponses aux questions posées</div>
+          <div class="radio-group">
+            <div class="radio-option"><input type="radio" id="clarte_reponses_pas" name="clarte_reponses" value="ليس مُرضِيا على الإطلاق" required><label for="clarte_reponses_pas">ليس مُرضِيا على الإطلاق <span class="option-text-fr">Pas satisfaisant</span></label></div>
+            <div class="radio-option"><input type="radio" id="clarte_reponses_peu" name="clarte_reponses" value="متوسط"><label for="clarte_reponses_peu">متوسط <span class="option-text-fr">Peu satisfaisant</span></label></div>
+            <div class="radio-option"><input type="radio" id="clarte_reponses_sat" name="clarte_reponses" value="مُرضٍ"><label for="clarte_reponses_sat">مُرضٍ <span class="option-text-fr">Satisfaisant</span></label></div>
+            <div class="radio-option"><input type="radio" id="clarte_reponses_tres" name="clarte_reponses" value="مُرضٍ جدًا"><label for="clarte_reponses_tres">مُرضٍ جدًا <span class="option-text-fr">Très satisfaisant</span></label></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ====== Section 5: الرضا العام ====== -->
+      <div class="card">
+        <h2 class="section-title">الرضا العام</h2>
+        <div class="section-title-fr">Satisfaction Globale</div>
+        <div class="form-group">
+          <label>درجة رضى الطالب عن أداء الأستاذ بصفة عامة <span class="required">*</span></label>
+          <div class="label-fr">Degré de satisfaction</div>
+          <div class="radio-group">
+            <div class="radio-option"><input type="radio" id="satisfaction_pas" name="satisfaction" value="لست راضِيا عنه على الإطلاق" required><label for="satisfaction_pas">لست راضِيا عنه على الإطلاق <span class="option-text-fr">Pas satisfait</span></label></div>
+            <div class="radio-option"><input type="radio" id="satisfaction_peu" name="satisfaction" value="راضٍ عنه رضى متوسطا"><label for="satisfaction_peu">راضٍ عنه رضى متوسطا <span class="option-text-fr">Peu satisfait</span></label></div>
+            <div class="radio-option"><input type="radio" id="satisfaction_sat" name="satisfaction" value="راضٍ عنه"><label for="satisfaction_sat">راضٍ عنه <span class="option-text-fr">Satisfait</span></label></div>
+            <div class="radio-option"><input type="radio" id="satisfaction_tres" name="satisfaction" value="راضٍ عنه جدًا"><label for="satisfaction_tres">راضٍ عنه جدًا <span class="option-text-fr">Très satisfait</span></label></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align:center;">
+        <button type="submit" class="btn btn-primary" id="submitBtn">إرسال الأجوبة / Soumettre</button>
+        <button type="button" class="btn btn-secondary" onclick="resetForm()">إعادة ضبط / Réinitialiser</button>
+      </div>
+    </form>
+
+    <div id="successMessage" class="card hidden">
+      <div class="success-message">✓ تم تسجيل تقييمك بنجاح! <br>Votre évaluation a été enregistrée avec succès !</div>
     </div>
+  </div>
 
 <script>
-/* ======== Données diplôme / UE / EC ======== */
+// ======== Data & Helpers ========
 function extractNiveauAndSemestre(ueCode) {
-    // Ex: "لغة 111 ..." ou "دراسات 241 ..."
-    const match = ueCode.match(/(\d)(\d)\d/);
-    if (match) {
-        const code = match[1] + match[2];
-        const mapping = {
-            '11': { niveau: 'L1', semestre: 'S1' },
-            '12': { niveau: 'L1', semestre: 'S2' },
-            '23': { niveau: 'L2', semestre: 'S3' },
-            '24': { niveau: 'L2', semestre: 'S4' },
-            '35': { niveau: 'L3', semestre: 'S5' },
-            '36': { niveau: 'L3', semestre: 'S6' }
-        };
-        return mapping[code] || { niveau: '', semestre: '' };
-    }
-    return { niveau: '', semestre: '' };
+  const m = ueCode.match(/(\d)(\d)\d/);
+  if (m) {
+    const map = {'11':{niveau:'L1',semestre:'S1'},'12':{niveau:'L1',semestre:'S2'},
+                 '23':{niveau:'L2',semestre:'S3'},'24':{niveau:'L2',semestre:'S4'},
+                 '35':{niveau:'L3',semestre:'S5'},'36':{niveau:'L3',semestre:'S6'}};
+    return map[m[1]+m[2]] || {niveau:'',semestre:''};
+  }
+  return {niveau:'',semestre:''};
 }
 
 const curriculumData = {
-    "LLA": {
-        "name_ar": "قسم اللغة العربية وآدابها",
-        "name_fr": "Langue et Littérature Arabes",
-        "ue": {
-            "لغة 111 اللغة العربية واللسانيات": ["لغة 1111 النحو والصرف 1", "لغة 1112 مدخل إلى فقه اللغة", "لغة 1113 العروض 1"],
-            "لغة 112 الأدب العربي ونصوصه": ["لغة 1121 الأدب الجاهلي", "لغة 1122 الأدب السنغالي العربي 1"],
-            "لغة 113 البلاغة والنقد": ["لغة 1131 البلاغة (علم المعاني)", "لغة 1132 مدخل إلى النقد"],
-            "لغة 121 اللغة العربية واللسانيات": ["لغة 1211 النحو والصرف 2", "لغة 1212 مدخل إلى اللسانيات", "لغة 1213 العروض 2"],
-            "لغة 122 الأدب العربي ونصوصه": ["لغة 1221 الأدب في العصر الإسلامي", "لغة 1222 الأدب السنغالي العربي 2"],
-            "لغة 123 البلاغة والنقد": ["لغة 1231 البلاغة (علم البيان)", "لغة 1232 مناهج النقد الأدبي"],
-            "لغة 231 اللغة العربية واللسانيات": ["لغة 2311 النحو والصرف 3", "لغة 2312 علم المعاجم", "لغة 2313 علم الأصوات"],
-            "لغة 232 الأدب العربي ونصوصه": ["لغة 2321 الأدب العباسي", "لغة 2322 الأدب المريدي العربي 1"],
-            "لغة 233 البلاغة والنقد": ["لغة 2331 البلاغة (علم البديع)", "لغة 2332 النقد الأدبي القديم"],
-            "لغة 241 اللغة العربية واللسانيات": ["لغة 2411 النحو والصرف 4", "لغة 2412 علم الدلالة", "لغة 2413 علم التراكيب"],
-            "لغة 242 الأدب العربي ونصوصه": ["لغة 2421 الأدب الأندلسي", "لغة 2422 الأدب المريدي العربي 2"],
-            "لغة 243 البلاغة والنقد": ["لغة 2431 دراسات بلاغية من الشعر", "لغة 2432 النقد الحديث"],
-            "لغة 351 اللغة العربية واللسانيات": ["لغة 3511 أصول النحو", "لغة 3512 اللسانيات التداولية"],
-            "لغة 352 الأدب العربي ونصوصه": ["لغة 3521 الأدب المملوكي", "لغة 3522 الأدب المريدي 3"],
-            "لغة 353 البلاغة والنقد": ["لغة 3531 إعجاز القرآن", "لغة 3532 علم الأسلوب"],
-            "لغة 361 اللغة العربية واللسانيات": ["لغة 3611 دراسات لغوية من القرآن", "لغة 3612 تحليل الخطاب"],
-            "لغة 362 الأدب العربي ونصوصه": ["لغة 3621 الأدب العثماني", "لغة 3622 الأدب الحديث"],
-            "لغة 363 البلاغة والنقد": ["لغة 3631 دراسات بلاغية من الحديث", "لغة 3632 الأدب المقارن"]
-        }
-    },
-    "ETIS": {
-        "name_ar": "قسم الدراسات الإسلامية",
-        "name_fr": "Études Islamiques",
-        "ue": {
-            "دراسات 111 القرآن والحديث": ["دراسات 1111 علوم القرآن 1", "دراسات 1112 علوم الحديث 1"],
-            "دراسات 112 العقيدة والتصوف": ["دراسات 1121 العقيدة 1", "دراسات 1122 التصوف 1"],
-            "دراسات 113 الفقه وأصوله": ["دراسات 1131 الفقه الإسلامي 1", "دراسات 1132 أصول الفقه 1"],
-            "دراسات 121 القرآن والحديث": ["دراسات 1211 تفسير القرآن2", "دراسات 1212 علوم الحديث 2"],
-            "دراسات 122 العقيدة والتصوف": ["دراسات 1221 العقيدة 2", "دراسات 1222 التصوف 2"],
-            "دراسات 123 الفقه وأصوله": ["دراسات 1231 الفقه الإسلامي 2", "دراسات 1232 أصول الفقه 2"],
-            "دراسات 231 القرآن والحديث": ["دراسات 2311 تفسير القرآن 1", "دراسات 2312 علوم الحديث 3"],
-            "دراسات 232 العقيدة والتصوف": ["دراسات 2321 العقيدة 3", "دراسات 2322 التصوف 3"],
-            "دراسات 233 الفقه وأصوله": ["دراسات 2331 الفقه الإسلامي 3", "دراسات 2332 أصول الفقه 3", "دراسات 2333 مدخل إلى القانون"],
-            "دراسات 241 القرآن والحديث": ["دراسات 2411 تفسير القرآن 2", "دراسات 2412 علوم الحديث 4"],
-            "دراسات 242 العقيدة والتصوف": ["دراسات 2421 العقيدة 4", "دراسات 2422 التصوف 4"],
-            "دراسات 243 الفقه وأصوله": ["دراسات 2431 الفقه الإسلامي 4", "دراسات 2432 مقاصد الشريعة", "دراسات 2433 الاقتصاد الإسلامي"],
-            "دراسات 351 القرآن والحديث": ["دراسات 3511 تفسير القرآن 3", "دراسات 3512 فقه الحديث 1"],
-            "دراسات 352 العقيدة والتصوف": ["دراسات 3521 العقيدة 5", "دراسات 3522 التصوف 5"],
-            "دراسات 353 الفقه وأصوله": ["دراسات 3531 الفقه المقارن 1", "دراسات 3532 السياسة الشرعية"],
-            "دراسات 361 القرآن والحديث": ["دراسات 3611 تفسير القرآن 4", "دراسات 3612 فقه الحديث 2"],
-            "دراسات 362 العقيدة والتصوف": ["دراسات 3621 العقيدة الإسلامية 6", "دراسات 3622 التصوف 6"],
-            "دراسات 363 الفقه وأصوله": ["دراسات 3631 الفقه المقارن 2", "دراسات 3632 القواعد الفقهية"]
-        }
+  "LLA": {
+    "name_ar": "قسم اللغة العربية وآدابها","name_fr": "Langue et Littérature Arabes",
+    "ue": {
+      "لغة 111 اللغة العربية واللسانيات": ["لغة 1111 النحو والصرف 1","لغة 1112 مدخل إلى فقه اللغة","لغة 1113 العروض 1"],
+      "لغة 112 الأدب العربي ونصوصه": ["لغة 1121 الأدب الجاهلي","لغة 1122 الأدب السنغالي العربي 1"],
+      "لغة 113 البلاغة والنقد": ["لغة 1131 البلاغة (علم المعاني)","لغة 1132 مدخل إلى النقد"],
+      "لغة 121 اللغة العربية واللسانيات": ["لغة 1211 النحو والصرف 2","لغة 1212 مدخل إلى اللسانيات","لغة 1213 العروض 2"],
+      "لغة 122 الأدب العربي ونصوصه": ["لغة 1221 الأدب في العصر الإسلامي","لغة 1222 الأدب السنغالي العربي 2"],
+      "لغة 123 البلاغة والنقد": ["لغة 1231 البلاغة (علم البيان)","لغة 1232 مناهج النقد الأدبي"],
+      "لغة 231 اللغة العربية واللسانيات": ["لغة 2311 النحو والصرف 3","لغة 2312 علم المعاجم","لغة 2313 علم الأصوات"],
+      "لغة 232 الأدب العربي ونصوصه": ["لغة 2321 الأدب العباسي","لغة 2322 الأدب المريدي العربي 1"],
+      "لغة 233 البلاغة والنقد": ["لغة 2331 البلاغة (علم البديع)","لغة 2332 النقد الأدبي القديم"],
+      "لغة 241 اللغة العربية واللسانيات": ["لغة 2411 النحو والصرف 4","لغة 2412 علم الدلالة","لغة 2413 علم التراكيب"],
+      "لغة 242 الأدب العربي ونصوصه": ["لغة 2421 الأدب الأندلسي","لغة 2422 الأدب المريدي العربي 2"],
+      "لغة 243 البلاغة والنقد": ["لغة 2431 دراسات بلاغية من الشعر","لغة 2432 النقد الحديث"],
+      "لغة 351 اللغة العربية واللسانيات": ["لغة 3511 أصول النحو","لغة 3512 اللسانيات التداولية"],
+      "لغة 352 الأدب العربي ونصوصه": ["لغة 3521 الأدب المملوكي","لغة 3522 الأدب المريدي 3"],
+      "لغة 353 البلاغة والنقد": ["لغة 3531 إعجاز القرآن","لغة 3532 علم الأسلوب"],
+      "لغة 361 اللغة العربية واللسانيات": ["لغة 3611 دراسات لغوية من القرآن","لغة 3612 تحليل الخطاب"],
+      "لغة 362 الأدب العربي ونصوصه": ["لغة 3621 الأدب العثماني","لغة 3622 الأدب الحديث"],
+      "لغة 363 البلاغة والنقد": ["لغة 3631 دراسات بلاغية من الحديث","لغة 3632 الأدب المقارن"]
     }
+  },
+  "ETIS": {
+    "name_ar": "قسم الدراسات الإسلامية","name_fr": "Études Islamiques",
+    "ue": {
+      "دراسات 111 القرآن والحديث": ["دراسات 1111 علوم القرآن 1","دراسات 1112 علوم الحديث 1"],
+      "دراسات 112 العقيدة والتصوف": ["دراسات 1121 العقيدة 1","دراسات 1122 التصوف 1"],
+      "دراسات 113 الفقه وأصوله": ["دراسات 1131 الفقه الإسلامي 1","دراسات 1132 أصول الفقه 1"],
+      "دراسات 121 القرآن والحديث": ["دراسات 1211 تفسير القرآن2","دراسات 1212 علوم الحديث 2"],
+      "دراسات 122 العقيدة والتصوف": ["دراسات 1221 العقيدة 2","دراسات 1222 التصوف 2"],
+      "دراسات 123 الفقه وأصوله": ["دراسات 1231 الفقه الإسلامي 2","دراسات 1232 أصول الفقه 2"],
+      "دراسات 231 القرآن والحديث": ["دراسات 2311 تفسير القرآن 1","دراسات 2312 علوم الحديث 3"],
+      "دراسات 232 العقيدة والتصوف": ["دراسات 2321 العقيدة 3","دراسات 2322 التصوف 3"],
+      "دراسات 233 الفقه وأصوله": ["دراسات 2331 الفقه الإسلامي 3","دراسات 2332 أصول الفقه 3","دراسات 2333 مدخل إلى القانون"],
+      "دراسات 241 القرآن والحديث": ["دراسات 2411 تفسير القرآن 2","دراسات 2412 علوم الحديث 4"],
+      "دراسات 242 العقيدة والتصوف": ["دراسات 2421 العقيدة 4","دراسات 2422 التصوف 4"],
+      "دراسات 243 الفقه وأصوله": ["دراسات 2431 الفقه الإسلامي 4","دراسات 2432 مقاصد الشريعة","دراسات 2433 الاقتصاد الإسلامي"],
+      "دراسات 351 القرآن والحديث": ["دراسات 3511 تفسير القرآن 3","دراسات 3512 فقه الحديث 1"],
+      "دراسات 352 العقيدة والتصوف": ["دراسات 3521 العقيدة 5","دراسات 3522 التصوف 5"],
+      "دراسات 353 الفقه وأصوله": ["دراسات 3531 الفقه المقارن 1","دراسات 3532 السياسة الشرعية"],
+      "دراسات 361 القرآن والحديث": ["دراسات 3611 تفسير القرآن 4","دراسات 3612 فقه الحديث 2"],
+      "دراسات 362 العقيدة والتصوف": ["دراسات 3621 العقيدة الإسلامية 6","دراسات 3622 التصوف 6"],
+      "دراسات 363 الفقه وأصوله": ["دراسات 3631 الفقه المقارن 2","دراسات 3632 القواعد الفقهية"]
+    }
+  }
 };
 
-let currentNiveauAcademique = '';
-let currentSemestre = '';
-let VALIDATED_CODE = null;
+let currentNiveauAcademique = '', currentSemestre = '', VALIDATED_CODE = null;
+const semestreLabels = {'S1':'الفصل الأول / Semestre 1','S2':'الفصل الثاني / Semestre 2','S3':'الفصل الثالث / Semestre 3','S4':'الفصل الرابع / Semestre 4','S5':'الفصل الخامس / Semestre 5','S6':'الفصل السادس / Semestre 6'};
+const semestresByNiveau = {'L1':['S1','S2'],'L2':['S3','S4'],'L3':['S5','S6']};
 
-const semestreLabels = {
-    'S1': 'الفصل الأول / Semestre 1',
-    'S2': 'الفصل الثاني / Semestre 2',
-    'S3': 'الفصل الثالث / Semestre 3',
-    'S4': 'الفصل الرابع / Semestre 4',
-    'S5': 'الفصل الخامس / Semestre 5',
-    'S6': 'الفصل السادس / Semestre 6'
-};
-const semestresByNiveau = {
-    'L1': ['S1', 'S2'],
-    'L2': ['S3', 'S4'],
-    'L3': ['S5', 'S6']
-};
-
-/* ========= Initialisation des listes ========= */
+// ====== Remplissage des selects ======
 const departementSelect = document.getElementById('departement');
 Object.keys(curriculumData).forEach(dept => {
-    const option = document.createElement('option');
-    option.value = dept;
-    option.textContent = `${curriculumData[dept].name_ar} / ${curriculumData[dept].name_fr}`;
-    departementSelect.appendChild(option);
+  const option = document.createElement('option');
+  option.value = dept;
+  option.textContent = `${curriculumData[dept].name_ar} / ${curriculumData[dept].name_fr}`;
+  departementSelect.appendChild(option);
 });
 
 departementSelect.addEventListener('change', function() {
-    document.getElementById('niveau_academique').value = '';
-    const semestreSelect = document.getElementById('semestre');
-    const ueSelect = document.getElementById('ue');
-    const elementSelect = document.getElementById('element');
-
-    semestreSelect.innerHTML = '<option value="">-- اختر المستوى الأكاديمي أولاً / Sélectionnez d\'abord le niveau --</option>';
-    semestreSelect.disabled = true;
-
-    ueSelect.innerHTML = '<option value="">-- اختر الفصل الدراسي أولاً / Sélectionnez d\'abord le semestre --</option>';
-    ueSelect.disabled = true;
-
-    elementSelect.innerHTML = '<option value="">-- اختر الوحدة التعليمية أولاً / Sélectionnez d\'abord l\'UE --</option>';
-    elementSelect.disabled = true;
+  document.getElementById('niveau_academique').value = '';
+  const semestreSelect = document.getElementById('semestre');
+  const ueSelect = document.getElementById('ue');
+  const elementSelect = document.getElementById('element');
+  semestreSelect.innerHTML = '<option value="">-- اختر المستوى الأكاديمي أولاً / Sélectionnez d\'abord le niveau --</option>';
+  semestreSelect.disabled = true;
+  ueSelect.innerHTML = '<option value="">-- اختر الفصل الدراسي أولاً / Sélectionnez d\'abord le semestre --</option>';
+  ueSelect.disabled = true;
+  elementSelect.innerHTML = '<option value="">-- اختر الوحدة التعليمية أولاً / Sélectionnez d\'abord l\'UE --</option>';
+  elementSelect.disabled = true;
 });
 
 document.getElementById('niveau_academique').addEventListener('change', function() {
-    const semestreSelect = document.getElementById('semestre');
-    const ueSelect = document.getElementById('ue');
-    const elementSelect = document.getElementById('element');
+  const semestreSelect = document.getElementById('semestre');
+  const ueSelect = document.getElementById('ue');
+  const elementSelect = document.getElementById('element');
+  semestreSelect.innerHTML = '<option value="">-- اختر الفصل الدراسي / Sélectionnez le semestre --</option>';
+  ueSelect.innerHTML = '<option value="">-- اختر الفصل الدراسي أولاً / Sélectionnez d\'abord le semestre --</option>';
+  ueSelect.disabled = true;
+  elementSelect.innerHTML = '<option value="">-- اختر الوحدة التعليمية أولاً / Sélectionnez d\'abord l\'UE --</option>';
+  elementSelect.disabled = true;
 
-    semestreSelect.innerHTML = '<option value="">-- اختر الفصل الدراسي / Sélectionnez le semestre --</option>';
-    ueSelect.innerHTML = '<option value="">-- اختر الفصل الدراسي أولاً / Sélectionnez d\'abord le semestre --</option>';
-    ueSelect.disabled = true;
-    elementSelect.innerHTML = '<option value="">-- اختر الوحدة التعليمية أولاً / Sélectionnez d\'abord l\'UE --</option>';
-    elementSelect.disabled = true;
-
-    if (this.value) {
-        currentNiveauAcademique = this.value;
-        semestreSelect.disabled = false;
-        semestresByNiveau[this.value].forEach(sem => {
-            const option = document.createElement('option');
-            option.value = sem;
-            option.textContent = semestreLabels[sem];
-            semestreSelect.appendChild(option);
-        });
-    } else {
-        currentNiveauAcademique = '';
-        semestreSelect.disabled = true;
-    }
+  if (this.value) {
+    currentNiveauAcademique = this.value;
+    semestreSelect.disabled = false;
+    semestresByNiveau[this.value].forEach(sem => {
+      const option = document.createElement('option');
+      option.value = sem;
+      option.textContent = semestreLabels[sem];
+      semestreSelect.appendChild(option);
+    });
+  } else {
+    currentNiveauAcademique = '';
+    semestreSelect.disabled = true;
+  }
 });
 
 document.getElementById('semestre').addEventListener('change', function() {
-    const deptValue = document.getElementById('departement').value;
-    const ueSelect = document.getElementById('ue');
-    const elementSelect = document.getElementById('element');
+  const deptValue = document.getElementById('departement').value;
+  const ueSelect = document.getElementById('ue');
+  const elementSelect = document.getElementById('element');
+  elementSelect.innerHTML = '<option value="">-- اختر الوحدة التعليمية أولاً / Sélectionnez d\'abord l\'UE --</option>';
+  elementSelect.disabled = true;
 
-    elementSelect.innerHTML = '<option value="">-- اختر الوحدة التعليمية أولاً / Sélectionnez d\'abord l\'UE --</option>';
-    elementSelect.disabled = true;
-
-    if (deptValue && this.value) {
-        currentSemestre = this.value;
-        ueSelect.disabled = false;
-        ueSelect.innerHTML = '<option value="">-- اختر الوحدة التعليمية / Sélectionnez une UE --</option>';
-
-        const allUes = Object.keys(curriculumData[deptValue].ue);
-        const filteredUes = allUes.filter(ue => {
-            const { niveau, semestre } = extractNiveauAndSemestre(ue);
-            return niveau === currentNiveauAcademique && semestre === currentSemestre;
-        });
-
-        filteredUes.forEach(ue => {
-            const option = document.createElement('option');
-            option.value = ue;
-            option.textContent = ue;
-            ueSelect.appendChild(option);
-        });
-    } else {
-        currentSemestre = '';
-        ueSelect.disabled = true;
-    }
+  if (deptValue && this.value) {
+    currentSemestre = this.value;
+    ueSelect.disabled = false;
+    ueSelect.innerHTML = '<option value="">-- اختر الوحدة التعليمية / Sélectionnez une UE --</option>';
+    const allUes = Object.keys(curriculumData[deptValue].ue);
+    const filteredUes = allUes.filter(ue => {
+      const { niveau, semestre } = extractNiveauAndSemestre(ue);
+      return niveau === currentNiveauAcademique && semestre === currentSemestre;
+    });
+    filteredUes.forEach(ue => {
+      const option = document.createElement('option');
+      option.value = ue;
+      option.textContent = ue;
+      ueSelect.appendChild(option);
+    });
+  } else {
+    currentSemestre = '';
+    ueSelect.disabled = true;
+  }
 });
 
 document.getElementById('ue').addEventListener('change', function() {
-    const deptValue = document.getElementById('departement').value;
-    const elementSelect = document.getElementById('element');
-
-    if (deptValue && this.value) {
-        elementSelect.disabled = false;
-        elementSelect.innerHTML = '<option value="">-- اختر المادة / Sélectionnez un EC --</option>';
-
-        const ecs = curriculumData[deptValue].ue[this.value];
-        ecs.forEach(ec => {
-            const option = document.createElement('option');
-            option.value = ec;
-            option.textContent = ec;
-            elementSelect.appendChild(option);
-        });
-    } else {
-        elementSelect.disabled = true;
-        elementSelect.innerHTML = '<option value="">-- اختر الوحدة التعليمية أولاً / Sélectionnez d\'abord l\'UE --</option>';
-    }
+  const deptValue = document.getElementById('departement').value;
+  const elementSelect = document.getElementById('element');
+  if (deptValue && this.value) {
+    elementSelect.disabled = false;
+    elementSelect.innerHTML = '<option value="">-- اختر المادة / Sélectionnez un EC --</option>';
+    const ecs = curriculumData[deptValue].ue[this.value];
+    ecs.forEach(ec => {
+      const option = document.createElement('option');
+      option.value = ec;
+      option.textContent = ec;
+      elementSelect.appendChild(option);
+    });
+  } else {
+    elementSelect.disabled = true;
+    elementSelect.innerHTML = '<option value="">-- اختر الوحدة التعليمية أولاً / Sélectionnez d\'abord l\'UE --</option>';
+  }
 });
 
-/* ========= Authentification par Code Permanent (côté serveur) ========= */
+// ====== Auth par Code Permanent (via google.script.run) ======
 document.getElementById('authBtn').addEventListener('click', function() {
-    const code = (document.getElementById('codePermanentInput').value || '').trim();
-    if (!code) return;
-
-    // Appel Apps Script (même origine, pas de CORS)
-    google.script.run.withSuccessHandler(function(isOK) {
-        if (isOK) {
-            VALIDATED_CODE = code;
-            document.getElementById('authError').style.display = 'none';
-            document.getElementById('authGate').classList.add('hidden');
-            document.getElementById('evaluationForm').classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else {
-            document.getElementById('authError').style.display = 'inline-block';
-        }
-    }).validateCode(code);
+  const code = (document.getElementById('codePermanentInput').value || '').trim();
+  if (!code) return;
+  google.script.run.withSuccessHandler(function(isOK){
+    if (isOK) {
+      VALIDATED_CODE = code;
+      document.getElementById('authError').style.display = 'none';
+      document.getElementById('authGate').classList.add('hidden');
+      document.getElementById('evaluationForm').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      document.getElementById('authError').style.display = 'inline-block';
+    }
+  }).validateCode(code);
 });
 
-/* ========= Soumission du formulaire ========= */
+// ====== Soumission (via google.script.run) ======
 document.getElementById('evaluationForm').addEventListener('submit', function(e) {
-    e.preventDefault();
+  e.preventDefault();
+  const submitBtn = document.getElementById('submitBtn');
+  const originalBtnText = submitBtn.innerHTML;
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = 'جاري الإرسال... <span class="loading"></span>';
 
-    const submitBtn = document.getElementById('submitBtn');
-    const originalBtnText = submitBtn.innerHTML;
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = 'جاري الإرسال... <span class="loading"></span>';
+  const formObject = {
+    timestamp: new Date().toISOString(),
+    annee_academique: "2025-2026",
+    departement: document.getElementById('departement').value,
+    niveau: document.getElementById('niveau_academique').value.startsWith('L') ? 'Licence' : 'Master',
+    niveau_academique: document.getElementById('niveau_academique').value,
+    semestre: document.getElementById('semestre').value,
+    ue: document.getElementById('ue').value,
+    element_constitutif: document.getElementById('element').value,
+    plan_cours: document.querySelector('input[name="plan_cours"]:checked')?.value || '',
+    documentation: Array.from(document.querySelectorAll('input[name="documentation"]:checked')).map(cb => cb.value).join(', '),
+    respect_plan: document.querySelector('input[name="respect_plan"]:checked')?.value || '',
+    rapport_cours: document.querySelector('input[name="rapport_cours"]:checked')?.value || '',
+    lien_ec: document.querySelector('input[name="lien_ec"]:checked')?.value || '',
+    lien_ue: document.querySelector('input[name="lien_ue"]:checked')?.value || '',
+    clarte_expose: document.querySelector('input[name="clarte_expose"]:checked')?.value || '',
+    clarte_reponses: document.querySelector('input[name="clarte_reponses"]:checked')?.value || '',
+    satisfaction: document.querySelector('input[name="satisfaction"]:checked')?.value || '',
+    code_permanent: VALIDATED_CODE
+  };
 
-    const formObject = {
-        timestamp: new Date().toISOString(),
-        annee_academique: "2025-2026",
-        departement: document.getElementById('departement').value,
-        niveau: document.getElementById('niveau_academique').value.startsWith('L') ? 'Licence' : 'Master',
-        niveau_academique: document.getElementById('niveau_academique').value,
-        semestre: document.getElementById('semestre').value,
-        ue: document.getElementById('ue').value,
-        element_constitutif: document.getElementById('element').value,
-        plan_cours: document.querySelector('input[name="plan_cours"]:checked')?.value || '',
-        documentation: Array.from(document.querySelectorAll('input[name="documentation"]:checked')).map(cb => cb.value).join(', '),
-        respect_plan: document.querySelector('input[name="respect_plan"]:checked')?.value || '',
-        rapport_cours: document.querySelector('input[name="rapport_cours"]:checked')?.value || '',
-        lien_ec: document.querySelector('input[name="lien_ec"]:checked')?.value || '',
-        lien_ue: document.querySelector('input[name="lien_ue"]:checked')?.value || '',
-        clarte_expose: document.querySelector('input[name="clarte_expose"]:checked')?.value || '',
-        clarte_reponses: document.querySelector('input[name="clarte_reponses"]:checked')?.value || '',
-        satisfaction: document.querySelector('input[name="satisfaction"]:checked')?.value || '',
-        code_permanent: VALIDATED_CODE
-    };
+  google.script.run.withSuccessHandler(function(resp){
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = originalBtnText;
 
-    // Appel serveur: double-check (code + doublon) + enregistrement
-    google.script.run.withSuccessHandler(function(resp) {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = originalBtnText;
-
-        if (!resp || !resp.result) {
-            alert('Une erreur est survenue. Veuillez réessayer.');
-            return;
-        }
-
-        if (resp.result === 'invalid_code') {
-            alert('Code permanent invalide. يرجى إعادة المحاولة.');
-            // Revenir au portail
-            document.getElementById('evaluationForm').classList.add('hidden');
-            document.getElementById('authGate').classList.remove('hidden');
-            VALIDATED_CODE = null;
-            return;
-        }
-
-        if (resp.result === 'duplicate') {
-            alert('Vous avez déjà évalué cette matière / تم تسجيل تقييم سابق لهذه المادة.');
-            return;
-        }
-
-        if (resp.result === 'success') {
-            document.getElementById('evaluationForm').classList.add('hidden');
-            document.getElementById('successMessage').classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            setTimeout(() => {
-                document.getElementById('evaluationForm').classList.remove('hidden');
-                document.getElementById('successMessage').classList.add('hidden');
-                resetForm();
-            }, 3000);
-            return;
-        }
-
-        alert('Erreur: ' + (resp.message || 'Inconnue'));
-
-    }).submitWithDuplicateCheck(formObject);
+    if (!resp || !resp.result) { alert('Une erreur est survenue. Veuillez réessayer.'); return; }
+    if (resp.result === 'invalid_code') {
+      alert('Code permanent invalide. يرجى إعادة المحاولة.');
+      document.getElementById('evaluationForm').classList.add('hidden');
+      document.getElementById('authGate').classList.remove('hidden');
+      VALIDATED_CODE = null;
+      return;
+    }
+    if (resp.result === 'duplicate') {
+      alert('Vous avez déjà évalué cette matière / تم تسجيل تقييم سابق لهذه المادة.');
+      return;
+    }
+    if (resp.result === 'success') {
+      document.getElementById('evaluationForm').classList.add('hidden');
+      document.getElementById('successMessage').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setTimeout(() => {
+        document.getElementById('evaluationForm').classList.remove('hidden');
+        document.getElementById('successMessage').classList.add('hidden');
+        resetForm();
+      }, 3000);
+      return;
+    }
+    alert('Erreur: ' + (resp.message || 'Inconnue'));
+  }).submitWithDuplicateCheck(formObject);
 });
 
 function resetForm() {
-    document.getElementById('evaluationForm').reset();
-    document.getElementById('niveau_academique').value = '';
-    document.getElementById('semestre').disabled = true;
-    document.getElementById('semestre').innerHTML = '<option value="">-- اختر المستوى الأكاديمي أولاً / Sélectionnez d\'abord le niveau --</option>';
-    document.getElementById('ue').disabled = true;
-    document.getElementById('ue').innerHTML = '<option value="">-- اختر الفصل الدراسي أولاً / Sélectionnez d\'abord le semestre --</option>';
-    document.getElementById('element').disabled = true;
-    document.getElementById('element').innerHTML = '<option value="">-- اختر الوحدة التعليمية أولاً / Sélectionnez d\'abord l\'UE --</option>';
-    currentNiveauAcademique = '';
-    currentSemestre = '';
+  document.getElementById('evaluationForm').reset();
+  document.getElementById('niveau_academique').value = '';
+  document.getElementById('semestre').disabled = true;
+  document.getElementById('semestre').innerHTML = '<option value="">-- اختر المستوى الأكاديمي أولاً / Sélectionnez d\'abord le niveau --</option>';
+  document.getElementById('ue').disabled = true;
+  document.getElementById('ue').innerHTML = '<option value="">-- اختر الفصل الدراسي أولاً / Sélectionnez d\'abord le semestre --</option>';
+  document.getElementById('element').disabled = true;
+  document.getElementById('element').innerHTML = '<option value="">-- اختر الوحدة التعليمية أولاً / Sélectionnez d\'abord l\'UE --</option>';
+  currentNiveauAcademique = '';
+  currentSemestre = '';
 }
 </script>
 </body>
