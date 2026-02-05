@@ -192,15 +192,16 @@
         }
 
         .warning-badge {
-            display: inline-block;
+            display: block;
             background: #FFF3E0;
             color: #F57C00;
-            padding: 0.5rem 1rem;
+            padding: 1rem;
             border-radius: 6px;
             font-family: 'Montserrat', sans-serif;
             font-size: 0.9rem;
             font-weight: 600;
             margin-top: 0.5rem;
+            text-align: center;
         }
 
         .error-badge {
@@ -430,6 +431,11 @@
         <div id="codeSection" class="card">
             <h2 class="section-title">التعريف الشخصي</h2>
             <div class="section-title-fr">Identification</div>
+            
+            <div class="warning-badge">
+                ⚠️ تنبيه: تأكد من صحة الرمز الدائم قبل المتابعة<br>
+                Attention: Vérifiez que votre code permanent est correct avant de continuer
+            </div>
             
             <div class="form-group">
                 <label>الرمز الدائم للطالب <span class="required">*</span></label>
@@ -838,7 +844,7 @@
     </div>
 
     <script>
-        // CONFIGURATION
+        // CONFIGURATION - METTEZ ICI VOTRE URL DE DÉPLOIEMENT
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxnIv1GFpEqVpo3t1pB3vHnNTThQsVBp4TT-Lmro3DFBHc4dnrqfuNCxic8NyGvm0pK/exec';
         
         // Variable globale pour stocker le code permanent
@@ -1081,7 +1087,7 @@
         });
 
         // Fonction pour afficher une erreur
-        function showError(messageAr, messageFr) {
+        function showError(messageAr, messageFr, duration = 5000) {
             const errorMessage = document.getElementById('errorMessage');
             const errorText = document.getElementById('errorText');
             
@@ -1094,7 +1100,7 @@
             setTimeout(() => {
                 document.getElementById('evaluationForm').classList.remove('hidden');
                 errorMessage.classList.add('hidden');
-            }, 5000);
+            }, duration);
         }
 
         // Gérer la soumission
@@ -1131,6 +1137,7 @@
             };
             
             try {
+                // Utiliser fetch avec no-cors
                 await fetch(GOOGLE_SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors',
@@ -1138,6 +1145,10 @@
                     body: JSON.stringify(formObject)
                 });
                 
+                // Attendre 2 secondes pour que le serveur traite la requête
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                // Afficher le message de succès
                 document.getElementById('evaluationForm').classList.add('hidden');
                 document.getElementById('successMessage').classList.remove('hidden');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
